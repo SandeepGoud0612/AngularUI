@@ -1,0 +1,106 @@
+<p-messages [value]="msgs"></p-messages>
+<p-panel header="Create New Contact" *ngIf="createContact">
+    <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px">
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-9">
+                <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2 label">First Name:</div>
+                        <div class="ui-grid-col-5">
+                            <input type="text" pInputText [(ngModel)]="contactNew.firstName" />
+                        </div>
+
+                        <div class="ui-grid-col-2 label">Last Name:</div>
+                        <div class="ui-grid-col-5">
+                            <input type="text" pInputText [(ngModel)]="contactNew.lastName" />
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2 label">Email Id:</div>
+                        <div class="ui-grid-col-5">
+                            <input type="text" pInputText [(ngModel)]="contactNew.email" />
+                        </div>
+
+                        <div class="ui-grid-col-2 label">Group Name:</div>
+                        <div class="ui-grid-col-5">
+                            <p-dropdown [options]="contactGroupNames" [(ngModel)]="contactNew.contactGroup.name"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui-grid-col-1">
+                <button pButton type="submit" label="Save" (click)="createContactSubmit()"></button>
+            </div>
+            <div style="margin-left:10px"></div>
+            <div class="ui-grid-col-1">
+                <button pButton type="button" label="Cancel" (click)="createContactCancel()"></button>
+            </div>
+
+        </div>
+    </div>
+</p-panel>
+
+<div style="margin-bottom:3px"></div>
+
+<p-dataTable [value]="contacts" [rows]="10" [paginator]="true" expandableRows="true">
+    <header>
+        <div style="text-align:right">
+            <button pButton type="button" label="Create Contact" icon="fa-plus" (click)="createContactClick()"></button>
+        </div>
+    </header>
+    <p-column expander="true" styleClass="col-icon"></p-column>
+    <p-column field="firstName" header="First Name" [sortable]="true" [filter]="true"></p-column>
+    <p-column field="lastName" header="Last Name" [sortable]="true" [filter]="true"></p-column>
+    <p-column field="email" header="Email Id" [sortable]="true" [filter]="true"></p-column>
+    <p-column field="contactGroup.name" header="Group Name" [sortable]="true" [filter]="true"></p-column>
+
+    <template let-contact>
+        <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;padding:20px;overflow:scroll;height:100px;">
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-9">
+                    <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2 label">First Name:</div>
+                            <div class="ui-grid-col-5" *ngIf="!updateContact">{{contact.firstName}}</div>
+                            <div class="ui-grid-col-5" *ngIf="updateContact">
+                                <input type="text" pInputText [(ngModel)]="contactNew.firstName" />
+                            </div>
+
+                            <div class="ui-grid-col-2 label">Last Name:</div>
+                            <div class="ui-grid-col-5" *ngIf="!updateContact">{{contact.lastName}}</div>
+                            <div class="ui-grid-col-5" *ngIf="updateContact">
+                                <input type="text" pInputText [(ngModel)]="contactNew.lastName" />
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-2 label">Email Id:</div>
+                            <div class="ui-grid-col-5" *ngIf="!updateContact">{{contact.email}}</div>
+                            <div class="ui-grid-col-5" *ngIf="updateContact">
+                                <input type="text" pInputText [(ngModel)]="contactNew.email" />
+                            </div>
+
+                            <div class="ui-grid-col-2 label">Group Name:</div>
+                            <div class="ui-grid-col-5" *ngIf="!updateContact">{{contact.contactGroup.name}}</div>
+                            <div class="ui-grid-col-5" *ngIf="updateContact">
+                                <p-dropdown [options]="contactGroupNames" [(ngModel)]="contact.contactGroup.name"></p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-grid-col-1" style="text-align:center" *ngIf="!updateContact">
+                    <i class="fa fa-pencil" pTooltip="Update Contact" (click)="updateContactClick(contact)" style="cursor:pointer;float:left;margin-top:40px"></i>
+                </div>
+                <div class="ui-grid-col-1" style="text-align:center" *ngIf="!updateContact">
+                    <i class="fa fa-trash" pTooltip="Delete Contact" (click)="deleteContact(contact)" style="cursor:pointer;float:left;margin-top:40px"></i>
+                </div>
+                <div class="ui-grid-col-1" style="text-align:center" *ngIf="updateContact">
+                    <i class="fa fa-check" pTooltip="Submit Contact" (click)="updateContactSubmit(contact)" style="cursor:pointer;float:left;margin-top:40px"></i>
+                </div>
+                <div class="ui-grid-col-1" style="text-align:center" *ngIf="updateContact">
+                    <i class="fa fa-close" pTooltip="Cancel" (click)="updateContactCancel()" style="cursor:pointer;float:left;margin-top:40px"></i>
+                </div>
+            </div>
+        </div>
+    </template>
+</p-dataTable>
