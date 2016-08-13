@@ -1,7 +1,7 @@
-import { ContactGroup } from "../contactGroup/contactGroup";
+import { Group } from "../group/group";
 
 export class Contact {
-    objectId: number;
+    id: number;
     version: number;
     lastUpdatedDate: any;
     lastUpdatedUser: any;
@@ -10,5 +10,6 @@ export class Contact {
     firstName: string;
     lastName: string;
     email: string;
-    contactGroup: ContactGroup;
+    groups: Group[];
+    groupNames: string[];    
 }

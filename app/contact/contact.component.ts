@@ -35,7 +35,9 @@ export class ContactComponent implements OnInit {
     getAllContacts() {
         this.contactService.getAllContacts()
             .subscribe(
-            contacts => this.contacts = contacts,
+            contacts => {
+                this.contacts = contacts
+             },
             error => this.errorMessage = <any>error
             );
     }
@@ -56,19 +58,19 @@ export class ContactComponent implements OnInit {
 
     onRowSelect(event) {
         this.contactNew = new Contact();
-        this.contactNew.contactGroup = new ContactGroup();
+         //this.contactNew.group = new Group();
         this.contactNew = this.cloneCar(event.data);
-        this.contactNew.contactGroup = this.cloneGroup(this.contactNew.contactGroup);
+       // this.contactNew.contactGroup = this.cloneGroup(this.contactNew.contactGroup);
         this.displayDialog = true;
         this.readonlyDialog = true;
         this.updateContact = false;
         this.createContact = false;
     }
 
-    createContactClick() {
-        this.contactNew = new Contact();
-        this.contactNew.contactGroup = new ContactGroup();
-        this.contactNew.contactGroup.name = "sam";
+        ateContactClick() {
+         this.contactNew = new Contact();
+       // this.contactNew.contactGroup = new ContactGroup();
+       // this.contactNew.contactGroup.name = "sam";
         this.displayDialog = true;
         this.readonlyDialog = false;
         this.createContact = true;
@@ -108,7 +110,7 @@ export class ContactComponent implements OnInit {
 
     deleteSelectedContact() {
         this.msgs = [];
-        this.contactService.deleteContact(this.selectedContact.objectId)
+        this.contactService.deleteContact(this.selectedContact.id)
             .subscribe(() => {
                 this.getAllContacts();
                 this.msgs.push({ severity: "info", summary: "Contact deleted successfully.", detail: "" });

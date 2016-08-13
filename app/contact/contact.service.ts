@@ -29,7 +29,7 @@ export class ContactService {
     updateContact(contact: Contact) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        return this.http.put(this.contactUrl + "/" + contact.objectId, JSON.stringify(contact), { headers: headers })
+        return this.http.put(this.contactUrl + "/" + contact.id, JSON.stringify(contact), { headers: headers })
             .map((res: Response) => { return; })
             .catch(this.handleError);
     }
