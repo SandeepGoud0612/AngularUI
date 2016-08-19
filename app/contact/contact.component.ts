@@ -1,35 +1,36 @@
 import { Component, OnInit } from "@angular/core";
 import { ContactService } from "./contact.service";
 import { Contact } from "./contact";
-import { DataTable, Column, Tooltip, InputText, Button, Header, Panel, Messages, Dropdown, Footer, Dialog, SelectItem} from 'primeng/primeng';
+import { DataTable, Column, Tooltip, InputText, Button, Header, Panel, Messages, Dropdown, Footer, Dialog, SelectItem, MultiSelect} from 'primeng/primeng';
 import { Message } from "../message";
-import { ContactGroup } from "../contactgroup/contactgroup";
-import { ContactGroupService } from "../contactgroup/contactgroup.service";
+import { Group } from "../group/group";
+import { GroupService } from "../group/group.service";
 
 @Component({
     selector: "my-contact",
     templateUrl: "app/contact/contact.component.html",
     styleUrls: ["app/contact/contact.component.css"],
-    directives: [DataTable, Column, Tooltip, InputText, Button, Header, Panel, Messages, Dropdown, Footer, Dialog]
+    directives: [DataTable, Column, Tooltip, InputText, Button, Header, Panel, Messages, Dropdown, Footer, Dialog, MultiSelect]
 })
 export class ContactComponent implements OnInit {
 
     msgs: Message[] = [];
-    contactGroups: SelectItem[];
-    contacts: Contact[];
     errorMessage: string;
-    selectedContact: Contact;
-    contactNew: Contact;
+    contacts: Contact[];
+    contactSelected: Contact;
+    contact: Contact;
+
     displayDialog: boolean;
     readonlyDialog: boolean;
     updateContact: boolean;
     createContact: boolean;
+    groupItems: SelectItem[];
 
-    constructor(private contactService: ContactService, private contactGroupService: ContactGroupService) { }
+    constructor(private contactService: ContactService, private groupService: GroupService) { }
 
     ngOnInit() {
         this.getAllContacts();
-        this.getAllContactGroupNames();
+        this.getAllGroups();
     }
 
     getAllContacts() {
@@ -37,40 +38,26 @@ export class ContactComponent implements OnInit {
             .subscribe(
             contacts => {
                 this.contacts = contacts
-             },
+            },
             error => this.errorMessage = <any>error
             );
     }
 
-    getAllContactGroupNames() {
-        this.contactGroupService.getAllContactGroups()
+    getAllGroups() {
+        this.groupService.getAllGroups()
             .subscribe(
-            contactGroups => {
-                let index: number = 0;
-                this.contactGroups = [];
-                for (let contactGroup of contactGroups) {
-                    this.contactGroups.push({ label: contactGroup.name, value: contactGroup });
+            groups => {
+                this.groupItems = [];
+                for (let groupItem of groups) {
+                    this.groupItems.push({ label: groupItem.name, value: groupItem });
                 }
             },
             error => this.errorMessage = <any>error
             );
     }
 
-    onRowSelect(event) {
-        this.contactNew = new Contact();
-         //this.contactNew.group = new Group();
-        this.contactNew = this.cloneCar(event.data);
-       // this.contactNew.contactGroup = this.cloneGroup(this.contactNew.contactGroup);
-        this.displayDialog = true;
-        this.readonlyDialog = true;
-        this.updateContact = false;
-        this.createContact = false;
-    }
-
-        ateContactClick() {
-         this.contactNew = new Contact();
-       // this.contactNew.contactGroup = new ContactGroup();
-       // this.contactNew.contactGroup.name = "sam";
+    createContactClick() {
+        this.contact = new Contact();
         this.displayDialog = true;
         this.readonlyDialog = false;
         this.createContact = true;
@@ -78,7 +65,7 @@ export class ContactComponent implements OnInit {
 
     createContactSubmit() {
         this.msgs = [];
-        this.contactService.createContact(this.contactNew)
+        this.contactService.createContact(this.contact)
             .subscribe(() => {
                 this.getAllContacts();
                 this.displayDialog = false;
@@ -92,9 +79,31 @@ export class ContactComponent implements OnInit {
             });
     }
 
+    onRowSelect(event) {
+        this.contactSelected = new Contact();
+        this.contactSelected = this.cloneContact(event.data);
+        this.contact = this.cloneContact(this.contactSelected);
+        this.displayDialog = true;
+        this.readonlyDialog = true;
+        this.updateContact = false;
+        this.createContact = false;
+    }
+
+    updateContactClick() {
+        this.contact = this.cloneContact(this.contactSelected);
+        this.readonlyDialog = false;
+        this.updateContact = true;
+    }
+
+    updateDialogCancelClick() {
+        this.contact = this.cloneContact(this.contactSelected);
+        this.readonlyDialog = true;
+        this.updateContact = false;
+    }
+
     updateContactSubmit() {
         this.msgs = [];
-        this.contactService.updateContact(this.contactNew)
+        this.contactService.updateContact(this.contact)
             .subscribe(() => {
                 this.getAllContacts();
                 this.displayDialog = false;
@@ -110,7 +119,7 @@ export class ContactComponent implements OnInit {
 
     deleteSelectedContact() {
         this.msgs = [];
-        this.contactService.deleteContact(this.selectedContact.id)
+        this.contactService.deleteContact(this.contactSelected.id)
             .subscribe(() => {
                 this.getAllContacts();
                 this.msgs.push({ severity: "info", summary: "Contact deleted successfully.", detail: "" });
@@ -122,36 +131,26 @@ export class ContactComponent implements OnInit {
             });
     }
 
-    updateContactClick() {
-        this.readonlyDialog = false;
-        this.updateContact = true;
-    }
-
     createDialogCancelClick() {
         this.displayDialog = false;
         this.readonlyDialog = true;
         this.createContact = false;
     }
 
-    updateDialogCancelClick() {
-        this.readonlyDialog = true;
-        this.updateContact = false;
-    }
-
-    cloneGroup(group: ContactGroup): ContactGroup {
-        let contactGroup = new ContactGroup();
-        for (let prop in group) {
-            contactGroup[prop] = group[prop];
-        }
-        return contactGroup;
-    }
-
-    cloneCar(cont: Contact): Contact {
+    cloneContact(cont: Contact): Contact {
         let contact = new Contact();
         for (let prop in cont) {
             contact[prop] = cont[prop];
         }
         return contact;
+    }
+
+    cloneGroup(group: Group): Group {
+        let groupNew = new Group();
+        for (let prop in group) {
+            groupNew[prop] = group[prop];
+        }
+        return groupNew;
     }
 
 }
