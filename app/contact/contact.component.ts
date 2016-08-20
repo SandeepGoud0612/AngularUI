@@ -19,7 +19,6 @@ export class ContactComponent implements OnInit {
     contacts: Contact[];
     contactSelected: Contact;
     contact: Contact;
-
     displayDialog: boolean;
     readonlyDialog: boolean;
     updateContact: boolean;
@@ -48,8 +47,8 @@ export class ContactComponent implements OnInit {
             .subscribe(
             groups => {
                 this.groupItems = [];
-                for (let groupItem of groups) {
-                    this.groupItems.push({ label: groupItem.name, value: groupItem });
+                for (let group of groups) {
+                    this.groupItems.push({ label: group.name, value: group });
                 }
             },
             error => this.errorMessage = <any>error
