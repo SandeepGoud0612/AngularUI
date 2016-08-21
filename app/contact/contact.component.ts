@@ -1,21 +1,25 @@
 import { Component, OnInit } from "@angular/core";
 import { ContactService } from "./contact.service";
 import { Contact } from "./contact";
-import { DataTable, Column, InputText, Button, Header, Messages, Dropdown, Footer, Dialog} from 'primeng/primeng';
+import { DataTable, Column, InputText, Button, Header, Messages, Dropdown, Footer, Dialog, Checkbox} from 'primeng/primeng';
 import { Message } from "../message";
 import { ContactGroupService } from "../contactgroup/contactgroup.service";
 import { ContactGroup } from "../contactgroup/contactgroup";
+import { Group } from "../group/group";
 
 @Component({
     selector: "my-contact",
     templateUrl: "app/contact/contact.component.html",
     styleUrls: ["app/contact/contact.component.css"],
-    directives: [DataTable, Column, InputText, Button, Header, Messages, Dropdown, Footer, Dialog]
+    directives: [DataTable, Column, InputText, Button, Header, Messages, Dropdown, Footer, Dialog, Checkbox]
 })
 export class ContactComponent implements OnInit {
 
     msgs: Message[] = [];
     errorMessage: string;
+    contactGroups: ContactGroup[];
+    contactGroupSelected: ContactGroup;
+
     contacts: Contact[];
     contactSelected: Contact;
     contact: Contact;
@@ -23,19 +27,31 @@ export class ContactComponent implements OnInit {
     readonlyDialog: boolean;
     updateContact: boolean;
     createContact: boolean;
-    contactgroups: ContactGroup[];
 
-    constructor(private contactService: ContactService, private contactgroupService: ContactGroupService) { }
+
+    constructor(private contactService: ContactService, private contactGroupService: ContactGroupService) { }
 
     ngOnInit() {
         this.getAllContactGroups();
     }
 
+    onRowSelect(event) {
+        this.displayDialog = true;
+        this.readonlyDialog = true;
+        this.updateContact = false;
+        this.createContact = false;
+        this.contactGroupSelected = event.data;
+
+        this.contactSelected = new Contact();
+        this.contactSelected = this.cloneContact(event.data);
+        this.contact = this.cloneContact(this.contactSelected);
+    }
+
     getAllContactGroups() {
-        this.contactgroupService.getAllContactGroups()
+        this.contactGroupService.getAllContactGroups()
             .subscribe(
-            contactgroups => {
-                this.contactgroups = contactgroups;
+            contactGroups => {
+                this.contactGroups = contactGroups;
             },
             error => this.errorMessage = <any>error
             );
@@ -45,7 +61,7 @@ export class ContactComponent implements OnInit {
         this.contactService.getAllContacts()
             .subscribe(
             contacts => {
-                this.contacts = contacts
+                this.contacts = contacts;
             },
             error => this.errorMessage = <any>error
             );
@@ -72,16 +88,6 @@ export class ContactComponent implements OnInit {
                 this.errorMessage = <any>error
                 this.msgs.push({ severity: "error", summary: "Contact creation failed.", detail: "" })
             });
-    }
-
-    onRowSelect(event) {
-        this.contactSelected = new Contact();
-        this.contactSelected = this.cloneContact(event.data);
-        this.contact = this.cloneContact(this.contactSelected);
-        this.displayDialog = true;
-        this.readonlyDialog = true;
-        this.updateContact = false;
-        this.createContact = false;
     }
 
     updateContactClick() {
@@ -138,6 +144,22 @@ export class ContactComponent implements OnInit {
             contact[prop] = cont[prop];
         }
         return contact;
+    }
+
+    cloneGroup(gro: Group): Group {
+        let group = new Group();
+        for (let prop in gro) {
+            group[prop] = gro[prop];
+        }
+        return group;
+    }
+
+    cloneContactGroup(contGrou: ContactGroup): ContactGroup {
+        let contactGroup = new ContactGroup();
+        for (let prop in contGrou) {
+            contactGroup[prop] = contGrou[prop];
+        }
+        return contactGroup;
     }
 
 }

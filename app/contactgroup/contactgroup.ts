@@ -1,7 +1,9 @@
-import { ContactGroupPK } from "../contactgroup/contactgrouppk";
+import { Contact } from "../contact/contact";
+import { Group } from "../group/group";
 
 export class ContactGroup {
-    contactGroupPK: ContactGroupPK;
+    contact: Contact;
+    group: Group;
     active: boolean;
     unSubscribed: boolean;
 }
