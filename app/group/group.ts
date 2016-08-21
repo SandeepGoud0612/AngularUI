@@ -6,4 +6,5 @@ export class Group {
     creationDate: any;
     createdUser: any;
     name: string;
+    comments: string;
 }

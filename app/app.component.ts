@@ -3,6 +3,7 @@ import { ROUTER_DIRECTIVES } from "@angular/router";
 import { HTTP_PROVIDERS } from '@angular/http';
 import { ContactService } from "./contact/contact.service";
 import { GroupService } from "./group/group.service";
+import { ContactGroupService } from "./contactgroup/contactgroup.service";
 import './rxjs-operators';
 
 @Component({
@@ -11,7 +12,7 @@ import './rxjs-operators';
   templateUrl: "app.component.html",
   styleUrls: ["app.component.css"],
   directives: [ROUTER_DIRECTIVES],
-  providers: [HTTP_PROVIDERS, ContactService, GroupService]
+  providers: [HTTP_PROVIDERS, ContactService, GroupService, ContactGroupService]
 })
 export class AppComponent {
   title: string = "Mass Mailing Application";

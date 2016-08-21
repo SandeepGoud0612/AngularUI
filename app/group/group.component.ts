@@ -1,9 +1,12 @@
 import { Component, OnInit } from "@angular/core";
+import { DataTable, Column } from 'primeng/primeng';
 import { GroupService } from "./group.service";
 import { Group } from "./group";
 
 @Component({
-    templateUrl: "app/group/group.component.html"
+    selector: "my-group",
+    templateUrl: "app/group/group.component.html",
+    directives: [DataTable, Column]
 })
 export class GroupComponent implements OnInit {
 

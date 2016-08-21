@@ -9,7 +9,5 @@ export class Contact {
     createdUser: any;
     firstName: string;
     lastName: string;
-    email: string;
-    groups: Group[];
-    groupNames: string[];    
+    email: string; 
 }

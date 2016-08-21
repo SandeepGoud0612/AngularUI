@@ -1,9 +1,7 @@
+import { ContactGroupPK } from "../contactgroup/contactgrouppk";
+
 export class ContactGroup {
-    id: number;
-    version: number;
-    lastUpdatedDate: any;
-    lastUpdatedUser: any;
-    creationDate: any;
-    createdUser: any;
-    name: string;
+    contactGroupPK: ContactGroupPK;
+    active: boolean;
+    unSubscribed: boolean;
 }

@@ -1,11 +1,15 @@
 <p-panel>
     <header>
         <center>{{title}}</center>
-    </header>    
+    </header>
     <p-tabView>
-        <p-tabPanel header="Conacts" [selected]="true">
+        <!--<p-tabPanel header="Emails" [selected]="true">
+        </p-tabPanel>-->
+        <p-tabPanel header="Groups">
+            <my-group></my-group>
+        </p-tabPanel>
+        <p-tabPanel header="Conacts">
             <my-contact></my-contact>
         </p-tabPanel>
-        <p-tabPanel header="Groups"></p-tabPanel>
     </p-tabView>
 </p-panel>

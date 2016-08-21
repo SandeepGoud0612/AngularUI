@@ -1,10 +1,12 @@
 <p-messages [value]="msgs"></p-messages>
-<p-dataTable [value]="contacts" [rows]="10" [paginator]="true" selectionMode="single" [responsive]="true" (onRowSelect)="onRowSelect($event)">
+<p-dataTable [value]="contactgroups" [rows]="10" [paginator]="true" selectionMode="single" [responsive]="true" (onRowSelect)="onRowSelect($event)">
     <header>Contacts</header>
-    <p-column field="firstName" header="First Name" [sortable]="true" [filter]="true"></p-column>
-    <p-column field="lastName" header="Last Name" [sortable]="true" [filter]="true"></p-column>
-    <p-column field="email" header="Email Id" [sortable]="true" [filter]="true"></p-column>
-    <p-column field="groupNames" header="Group Name" [sortable]="true" [filter]="true"></p-column>
+    <p-column field="contactGroupPK.contact.firstName" header="First Name" [sortable]="true" [filter]="true"></p-column>
+    <p-column field="contactGroupPK.contact.lastName" header="Last Name" [sortable]="true" [filter]="true"></p-column>
+    <p-column field="contactGroupPK.contact.email" header="Email Id" [sortable]="true" [filter]="true"></p-column>
+    <p-column field="contactGroupPK.group.name" header="Group Name" [sortable]="true" [filter]="true"></p-column>
+    <p-column field="active" header="Active" [sortable]="true" [filter]="true"></p-column>
+    <p-column field="unSubscribed" header="UnSubscribed" [sortable]="true" [filter]="true"></p-column>
     <footer>
         <div class="ui-helper-clearfix" style="width:100%">
             <button type="button" pButton style="float:left" (click)="createContactClick()" label="Create"></button>
@@ -31,15 +33,6 @@
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-4"><label for="email">Email Id</label></div>
                         <div class="ui-grid-col-8"><input pInputText [readonly]="readonlyDialog" id="email" [(ngModel)]="contact.email" /></div>
-                    </div>
-                    <div class="ui-grid-row">
-                        <div class="ui-grid-col-4"><label for="groupName">Group Names</label></div>
-                        <div class="ui-grid-col-8" *ngIf="readonlyDialog">
-                            <input pInputText [readonly]="readonlyDialog" id="groupName" [(ngModel)]="contact.groupNames" />
-                        </div>
-                        <div class="ui-grid-col-8" *ngIf="!readonlyDialog">
-                            <p-multiSelect [readonly]="readonlyDialog" id="groupName" [options]="groupItems" [(ngModel)]="contact.groups" [style]="{'width':'150px'}"></p-multiSelect>
-                        </div>
                     </div>
                 </div>
             </div>

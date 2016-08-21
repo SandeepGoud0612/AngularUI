@@ -1,16 +1,16 @@
 import { Component, OnInit } from "@angular/core";
 import { ContactService } from "./contact.service";
 import { Contact } from "./contact";
-import { DataTable, Column, Tooltip, InputText, Button, Header, Panel, Messages, Dropdown, Footer, Dialog, SelectItem, MultiSelect} from 'primeng/primeng';
+import { DataTable, Column, InputText, Button, Header, Messages, Dropdown, Footer, Dialog} from 'primeng/primeng';
 import { Message } from "../message";
-import { Group } from "../group/group";
-import { GroupService } from "../group/group.service";
+import { ContactGroupService } from "../contactgroup/contactgroup.service";
+import { ContactGroup } from "../contactgroup/contactgroup";
 
 @Component({
     selector: "my-contact",
     templateUrl: "app/contact/contact.component.html",
     styleUrls: ["app/contact/contact.component.css"],
-    directives: [DataTable, Column, Tooltip, InputText, Button, Header, Panel, Messages, Dropdown, Footer, Dialog, MultiSelect]
+    directives: [DataTable, Column, InputText, Button, Header, Messages, Dropdown, Footer, Dialog]
 })
 export class ContactComponent implements OnInit {
 
@@ -23,13 +23,22 @@ export class ContactComponent implements OnInit {
     readonlyDialog: boolean;
     updateContact: boolean;
     createContact: boolean;
-    groupItems: SelectItem[];
+    contactgroups: ContactGroup[];
 
-    constructor(private contactService: ContactService, private groupService: GroupService) { }
+    constructor(private contactService: ContactService, private contactgroupService: ContactGroupService) { }
 
     ngOnInit() {
-        this.getAllContacts();
-        this.getAllGroups();
+        this.getAllContactGroups();
+    }
+
+    getAllContactGroups() {
+        this.contactgroupService.getAllContactGroups()
+            .subscribe(
+            contactgroups => {
+                this.contactgroups = contactgroups;
+            },
+            error => this.errorMessage = <any>error
+            );
     }
 
     getAllContacts() {
@@ -37,19 +46,6 @@ export class ContactComponent implements OnInit {
             .subscribe(
             contacts => {
                 this.contacts = contacts
-            },
-            error => this.errorMessage = <any>error
-            );
-    }
-
-    getAllGroups() {
-        this.groupService.getAllGroups()
-            .subscribe(
-            groups => {
-                this.groupItems = [];
-                for (let group of groups) {
-                    this.groupItems.push({ label: group.name, value: group });
-                }
             },
             error => this.errorMessage = <any>error
             );
@@ -142,14 +138,6 @@ export class ContactComponent implements OnInit {
             contact[prop] = cont[prop];
         }
         return contact;
-    }
-
-    cloneGroup(group: Group): Group {
-        let groupNew = new Group();
-        for (let prop in group) {
-            groupNew[prop] = group[prop];
-        }
-        return groupNew;
     }
 
 }
