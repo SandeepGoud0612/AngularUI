@@ -19,10 +19,10 @@ export class ContactComponent implements OnInit {
     errorMessage: string;
     contactGroups: ContactGroup[];
     contactGroupSelected: ContactGroup;
-
-    contacts: Contact[];
+    contactGroupOriginal: ContactGroup;
     contactSelected: Contact;
-    contact: Contact;
+    contactNew: Contact;
+
     displayDialog: boolean;
     readonlyDialog: boolean;
     updateContact: boolean;
@@ -35,18 +35,6 @@ export class ContactComponent implements OnInit {
         this.getAllContactGroups();
     }
 
-    onRowSelect(event) {
-        this.displayDialog = true;
-        this.readonlyDialog = true;
-        this.updateContact = false;
-        this.createContact = false;
-        this.contactGroupSelected = event.data;
-
-        this.contactSelected = new Contact();
-        this.contactSelected = this.cloneContact(event.data);
-        this.contact = this.cloneContact(this.contactSelected);
-    }
-
     getAllContactGroups() {
         this.contactGroupService.getAllContactGroups()
             .subscribe(
@@ -57,56 +45,34 @@ export class ContactComponent implements OnInit {
             );
     }
 
-    getAllContacts() {
-        this.contactService.getAllContacts()
-            .subscribe(
-            contacts => {
-                this.contacts = contacts;
-            },
-            error => this.errorMessage = <any>error
-            );
-    }
-
-    createContactClick() {
-        this.contact = new Contact();
+    onRowSelect(event) {
         this.displayDialog = true;
-        this.readonlyDialog = false;
-        this.createContact = true;
-    }
+        this.readonlyDialog = true;
+        this.updateContact = false;
+        this.createContact = false;
 
-    createContactSubmit() {
-        this.msgs = [];
-        this.contactService.createContact(this.contact)
-            .subscribe(() => {
-                this.getAllContacts();
-                this.displayDialog = false;
-                this.readonlyDialog = true;
-                this.createContact = false;
-                this.msgs.push({ severity: "info", summary: "Contact created successfully.", detail: "" });
-            },
-            error => {
-                this.errorMessage = <any>error
-                this.msgs.push({ severity: "error", summary: "Contact creation failed.", detail: "" })
-            });
+        this.contactGroupOriginal = event.data;
+        this.contactGroupSelected = this.cloneContactGroup(this.contactGroupOriginal);
+        this.contactGroupSelected.contact = this.cloneContact(this.contactGroupOriginal.contact);
+        this.contactGroupSelected.group = this.cloneGroup(this.contactGroupOriginal.group);
     }
 
     updateContactClick() {
-        this.contact = this.cloneContact(this.contactSelected);
         this.readonlyDialog = false;
         this.updateContact = true;
     }
 
     updateDialogCancelClick() {
-        this.contact = this.cloneContact(this.contactSelected);
+        this.contactGroupSelected = this.contactGroupOriginal;
         this.readonlyDialog = true;
         this.updateContact = false;
     }
 
     updateContactSubmit() {
         this.msgs = [];
-        this.contactService.updateContact(this.contact)
+        this.contactGroupService.updateContactGroup(this.contactGroupSelected)
             .subscribe(() => {
-                this.getAllContacts();
+                this.getAllContactGroups();
                 this.displayDialog = false;
                 this.readonlyDialog = true;
                 this.updateContact = false;
@@ -118,11 +84,34 @@ export class ContactComponent implements OnInit {
             });
     }
 
+    createContactClick() {
+        this.contactNew = new Contact();
+        this.displayDialog = true;
+        this.readonlyDialog = false;
+        this.createContact = true;
+    }
+
+    createContactSubmit() {
+        this.msgs = [];
+        this.contactService.createContact(this.contactNew)
+            .subscribe(() => {
+                this.getAllContactGroups();
+                this.displayDialog = false;
+                this.readonlyDialog = true;
+                this.createContact = false;
+                this.msgs.push({ severity: "info", summary: "Contact created successfully.", detail: "" });
+            },
+            error => {
+                this.errorMessage = <any>error
+                this.msgs.push({ severity: "error", summary: "Contact creation failed.", detail: "" })
+            });
+    }
+
     deleteSelectedContact() {
         this.msgs = [];
-        this.contactService.deleteContact(this.contactSelected.id)
+        this.contactGroupService.deleteContactGroup(this.contactGroupSelected)
             .subscribe(() => {
-                this.getAllContacts();
+                this.getAllContactGroups();
                 this.msgs.push({ severity: "info", summary: "Contact deleted successfully.", detail: "" });
                 this.displayDialog = false;
             },

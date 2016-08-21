@@ -38,19 +38,25 @@
                     </div>
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-4"><label for="email">Group Name</label></div>
-                        <div class="ui-grid-col-8"><input pInputText [readonly]="readonlyDialog" id="email" [(ngModel)]="contactGroupSelected.group.name"
+                        <div class="ui-grid-col-8"><input pInputText [readonly]="true" id="email" [(ngModel)]="contactGroupSelected.group.name"
                             /></div>
                     </div>
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-4"><label for="active">Active</label></div>
-                        <div class="ui-grid-col-8">
-                            <input pInputText [readonly]="readonlyDialog" id="active" [(ngModel)]="contactGroupSelected.active" />
+                        <div class="ui-grid-col-8" *ngIf="readonlyDialog">
+                            <input pInputText id="active" [(ngModel)]="contactGroupSelected.active" />
+                        </div>
+                        <div class="ui-grid-col-8" *ngIf="!readonlyDialog">
+                            <p-checkbox id="active" [(ngModel)]="contactGroupSelected.active" binary="true"></p-checkbox>
                         </div>
                     </div>
                     <div class="ui-grid-row">
                         <div class="ui-grid-col-4"><label for="unSubscribed">UnSubscribed</label></div>
-                        <div class="ui-grid-col-8">
-                            <input pInputText [readonly]="readonlyDialog" id="unSubscribed" [(ngModel)]="contactGroupSelected.unSubscribed" />
+                        <div class="ui-grid-col-8" *ngIf="readonlyDialog">
+                            <input pInputText id="unSubscribed" [(ngModel)]="contactGroupSelected.unSubscribed" />
+                        </div>
+                        <div class="ui-grid-col-8" *ngIf="!readonlyDialog">
+                            <p-checkbox id="unSubscribed" [(ngModel)]="contactGroupSelected.unSubscribed" binary="true"></p-checkbox>
                         </div>
                     </div>
                 </div>

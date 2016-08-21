@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
+import { Http, Response, Headers } from "@angular/http";
 import { ContactGroup } from "./contactgroup";
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/catch';
@@ -15,6 +15,22 @@ export class ContactGroupService {
     getAllContactGroups(): Observable<ContactGroup[]> {
         return this.http.get(this.contactgroupUrl)
             .map(res => res.json())
+            .catch(this.handleError);
+    }
+
+    updateContactGroup(contactGroup: ContactGroup) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        return this.http.put(this.contactgroupUrl, JSON.stringify(contactGroup), { headers: headers })
+            .map((res: Response) => { return; })
+            .catch(this.handleError);
+    }
+
+    deleteContactGroup(contactGroup: ContactGroup): Observable<void> {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        return this.http.delete(this.contactgroupUrl + "/" + contactGroup.contact.id + "/" + contactGroup.group.id, { headers: headers })
+            .map((res: Response) => { return; })
             .catch(this.handleError);
     }
 
