@@ -1,17 +1,18 @@
 import { Component, OnInit } from "@angular/core";
 import { ContactService } from "./contact.service";
 import { Contact } from "./contact";
-import { DataTable, Column, InputText, Button, Header, Messages, Dropdown, Footer, Dialog, Checkbox} from 'primeng/primeng';
+import { DataTable, Column, InputText, Button, Header, Messages, Dropdown, Footer, Dialog, Checkbox, SelectItem, MultiSelect} from 'primeng/primeng';
 import { Message } from "../message";
 import { ContactGroupService } from "../contactgroup/contactgroup.service";
 import { ContactGroup } from "../contactgroup/contactgroup";
 import { Group } from "../group/group";
+import { GroupService } from "../group/group.service";
 
 @Component({
     selector: "my-contact",
     templateUrl: "app/contact/contact.component.html",
     styleUrls: ["app/contact/contact.component.css"],
-    directives: [DataTable, Column, InputText, Button, Header, Messages, Dropdown, Footer, Dialog, Checkbox]
+    directives: [DataTable, Column, InputText, Button, Header, Messages, Dropdown, Footer, Dialog, Checkbox, MultiSelect]
 })
 export class ContactComponent implements OnInit {
 
@@ -22,6 +23,7 @@ export class ContactComponent implements OnInit {
     contactGroupOriginal: ContactGroup;
     contactSelected: Contact;
     contactNew: Contact;
+    groupItems: SelectItem[];
 
     displayDialog: boolean;
     readonlyDialog: boolean;
@@ -29,7 +31,7 @@ export class ContactComponent implements OnInit {
     createContact: boolean;
 
 
-    constructor(private contactService: ContactService, private contactGroupService: ContactGroupService) { }
+    constructor(private contactService: ContactService, private contactGroupService: ContactGroupService, private groupService: GroupService) { }
 
     ngOnInit() {
         this.getAllContactGroups();
@@ -89,10 +91,24 @@ export class ContactComponent implements OnInit {
         this.displayDialog = true;
         this.readonlyDialog = false;
         this.createContact = true;
+        this.getAllGroups();
+    }
+
+    getAllGroups() {
+        this.groupService.getAllGroups()
+            .subscribe(
+            groups => {
+                this.groupItems = [];
+                for (let group of groups) {
+                    this.groupItems.push({ label: group.name, value: group });
+                }
+            },
+            error => this.errorMessage = <any>error
+            );
     }
 
     createContactSubmit() {
-        this.msgs = [];
+        this.msgs = [];       
         this.contactService.createContact(this.contactNew)
             .subscribe(() => {
                 this.getAllContactGroups();

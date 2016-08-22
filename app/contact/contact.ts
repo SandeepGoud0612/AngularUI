@@ -11,5 +11,5 @@ export class Contact {
     firstName: string;
     lastName: string;
     email: string; 
-    contactGroups: ContactGroup[];
+    groups: Group[];
 }
