@@ -17,16 +17,21 @@ import { GroupService } from "../group/group.service";
 export class ContactComponent implements OnInit {
 
     msgs: Message[] = [];
-    errorMessage: string;
     contacts: Contact[];
-    displayViewDialog: boolean;
     contactSelected: Contact;
+    contactNew: Contact;
+    contactUpdate: Contact;
+    groupItems: SelectItem[];
+
+    displayViewDialog: boolean;
+    displayCreateDialog: boolean;
     updateContact: boolean;
 
-    constructor(private contactService: ContactService) { }
+    constructor(private contactService: ContactService, private groupService: GroupService) { }
 
     ngOnInit() {
         this.getAllContacts();
+        this.getAllGroups();
     }
 
     getAllContacts() {
@@ -44,17 +49,93 @@ export class ContactComponent implements OnInit {
                     }
                 }
             },
-            error => this.errorMessage = <any>error
+
+            error => {
+                this.msgs.push({ severity: "error", summary: "", detail: error });
+            }
+            );
+    }
+
+    getAllGroups() {
+        this.groupService.getAllGroups()
+            .subscribe(
+            groups => {
+                this.groupItems = [];
+                for (let group of groups) {
+                    this.groupItems.push({ label: group.name, value: group });
+                }
+            },
+            error => this.msgs.push({ severity: "error", summary: "", detail: error })
             );
     }
 
     onRowSelect(event) {
-        this.displayViewDialog = true;
         this.contactSelected = event.data;
-        this.updateContact = true;
+        this.displayViewDialog = true;
+        this.updateContact = false;
     }
 
-    deleteSelectedContact(){
+    createContactClick() {
+        this.contactNew = new Contact;
+        this.displayCreateDialog = true;
+    }
+
+    createDialogCancelClick() {
+        this.displayCreateDialog = false;
+    }
+
+    createContactSubmit() {
+        this.msgs = [];
+        let contactGroups: ContactGroup[] = [];
+        for (let group of this.contactNew.groups) {
+            let contactGroup = new ContactGroup();
+            contactGroup.group = group;
+            contactGroup.active = true;
+            contactGroup.unSubscribed = false;
+            contactGroups.push(contactGroup);
+        }
+        this.contactNew.contactGroups = contactGroups;
+        this.contactService.createContact(this.contactNew)
+            .subscribe(() => {
+                this.getAllContacts();
+                this.displayCreateDialog = false;
+                this.msgs.push({ severity: "info", summary: "Contact created successfully.", detail: "" });
+            },
+            error => {
+                this.msgs.push({ severity: "error", summary: "Contact creation failed.", detail: error })
+            });
+    }
+
+    updateContactClick() {
+        this.updateContact = true;
+        this.contactUpdate = this.contactSelected;
+        this.contactSelected = this.cloneContact(this.contactUpdate);
+        for (let contactGroup of this.contactSelected.contactGroups) {
+            contactGroup = this.cloneContactGroup(contactGroup);
+            contactGroup.group = this.cloneGroup(contactGroup.group);
+        }
+    }
+
+    updateContactSubmit() {
+        this.msgs = [];       
+        this.contactService.updateContact(this.contactSelected)
+            .subscribe(() => {
+                this.getAllContacts();
+                this.displayViewDialog = true;
+                 this.updateContact = false;
+                this.msgs.push({ severity: "info", summary: "Contact updated successfully.", detail: "" });
+            },
+            error => {
+                this.msgs.push({ severity: "error", summary: "Contact updation failed.", detail: error })
+            });
+    }
+
+    dialogUpdateCancelClick() {
+        this.updateContact = false;
+        this.contactSelected = this.contactUpdate;
+    }
+
+    deleteSelectedContact() {
         this.msgs = [];
         this.contactService.deleteContact(this.contactSelected.id)
             .subscribe(() => {
@@ -63,9 +144,32 @@ export class ContactComponent implements OnInit {
                 this.displayViewDialog = false;
             },
             error => {
-                this.errorMessage = <any>error
-                this.msgs.push({ severity: "error", summary: "Contact deletion failed.", detail: "" })
+                this.msgs.push({ severity: "error", summary: "Contact deletion failed.", detail: error });
             });
+    }
+
+    cloneContact(cont: Contact): Contact {
+        let contact = new Contact();
+        for (let prop in cont) {
+            contact[prop] = cont[prop];
+        }
+        return contact;
+    }
+
+    cloneGroup(gro: Group): Group {
+        let group = new Group();
+        for (let prop in gro) {
+            group[prop] = gro[prop];
+        }
+        return group;
+    }
+
+    cloneContactGroup(contGrou: ContactGroup): ContactGroup {
+        let contactGroup = new ContactGroup();
+        for (let prop in contGrou) {
+            contactGroup[prop] = contGrou[prop];
+        }
+        return contactGroup;
     }
 
 }
