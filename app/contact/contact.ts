@@ -14,4 +14,5 @@ export class Contact {
     contactGroups: ContactGroup[];
     groupDetails: string;
     groups: Group[];
+    moreGroups: Group[];
 }

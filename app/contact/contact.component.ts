@@ -22,6 +22,7 @@ export class ContactComponent implements OnInit {
     contactNew: Contact;
     contactUpdate: Contact;
     groupItems: SelectItem[];
+    moreGroupItems: SelectItem[];
 
     displayViewDialog: boolean;
     displayCreateDialog: boolean;
@@ -110,19 +111,47 @@ export class ContactComponent implements OnInit {
         this.updateContact = true;
         this.contactUpdate = this.contactSelected;
         this.contactSelected = this.cloneContact(this.contactUpdate);
+        this.moreGroupItems = [];
+        this.contactSelected.moreGroups = [];
         for (let contactGroup of this.contactSelected.contactGroups) {
             contactGroup = this.cloneContactGroup(contactGroup);
             contactGroup.group = this.cloneGroup(contactGroup.group);
         }
+        for (let groupItem of this.groupItems) {
+            let groupFound: boolean = false;
+            for (let contactGroup of this.contactSelected.contactGroups) {
+                if (contactGroup.group.name === groupItem.label) {
+                    groupFound = true;
+                }
+            }
+            if (!groupFound) {
+                this.moreGroupItems.push(groupItem);
+            }
+        }
     }
 
     updateContactSubmit() {
-        this.msgs = [];       
+        this.msgs = [];
+        for (let contactGroup of this.contactSelected.contactGroups) {
+            if (contactGroup.delete) {
+                var index = this.contactSelected.contactGroups.indexOf(contactGroup, 0);
+                if (index > -1) {
+                    this.contactSelected.contactGroups.splice(index, 1);
+                }
+            }
+        }
+        for (let group of this.contactSelected.moreGroups) {
+            let contactGroup = new ContactGroup();
+            contactGroup.group = group;
+            contactGroup.active = true;
+            contactGroup.unSubscribed = false;
+            this.contactSelected.contactGroups.push(contactGroup);
+        }
         this.contactService.updateContact(this.contactSelected)
             .subscribe(() => {
                 this.getAllContacts();
                 this.displayViewDialog = true;
-                 this.updateContact = false;
+                this.updateContact = false;
                 this.msgs.push({ severity: "info", summary: "Contact updated successfully.", detail: "" });
             },
             error => {

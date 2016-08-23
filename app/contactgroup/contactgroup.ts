@@ -6,4 +6,5 @@ export class ContactGroup {
     group: Group;
     active: boolean;
     unSubscribed: boolean;
+    delete: boolean;
 }
