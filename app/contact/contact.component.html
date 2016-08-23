@@ -41,11 +41,31 @@
         </div>
         <br/>
         <div class="ui-grid-row">
-            <p-dataTable [value]="contactSelected.contactGroups" [editable]="updateContact">
+            <p-dataTable [value]="contactSelected.contactGroups" *ngIf="!updateContact">
                 <p-column field="group.name" header="Group Name"></p-column>
                 <p-column field="active" header="Active"></p-column>
                 <p-column field="unSubscribed" header="UnSubscribed"></p-column>
             </p-dataTable>
+            <p-panel *ngIf="updateContact">
+                <div class="ui-grid-row" *ngFor="let contactGroup of contactSelected.contactGroups">
+                    <div class="ui-grid-col">
+                        <div class="ui-grid-col-3"><label for="groupName">{{contactGroup.group.name}}: </label></div>
+                    </div>
+                    <div class="ui-grid-col">
+                        <div class="ui-grid-col-1"><label for="active">Active</label></div>
+                        <div class="ui-grid-col-3">
+                            <p-checkbox id="active" [(ngModel)]="contactGroup.active" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="ui-grid-col">
+                        <div class="ui-grid-col-2"><label for="unSubscribed">UnSubscribe</label></div>
+                        <div class="ui-grid-col-3">
+                            <p-checkbox id="unSubscribed" [(ngModel)]="contactGroup.unSubscribed" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </p-panel>
         </div>
         <footer>
             <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
