@@ -132,14 +132,13 @@ export class ContactComponent implements OnInit {
 
     updateContactSubmit() {
         this.msgs = [];
+        let deleteContactGroups: ContactGroup[] = [];
         for (let contactGroup of this.contactSelected.contactGroups) {
-            if (contactGroup.delete) {
-                var index = this.contactSelected.contactGroups.indexOf(contactGroup, 0);
-                if (index > -1) {
-                    this.contactSelected.contactGroups.splice(index, 1);
-                }
+            if (!contactGroup.delete) {
+                deleteContactGroups.push(contactGroup);
             }
         }
+        this.contactSelected.contactGroups = deleteContactGroups;
         for (let group of this.contactSelected.moreGroups) {
             let contactGroup = new ContactGroup();
             contactGroup.group = group;

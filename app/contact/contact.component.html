@@ -49,34 +49,37 @@
         </div>
         <br/>
         <div class="ui-grid-row">
-            <p-dataTable [value]="contactSelected.contactGroups" *ngIf="!updateContact">
+            <p-dataTable [value]="contactSelected.contactGroups" *ngIf="!updateContact && contactSelected.contactGroups.length > 0">
                 <p-column field="group.name" header="Group Name"></p-column>
                 <p-column field="active" header="Active"></p-column>
                 <p-column field="unSubscribed" header="UnSubscribed"></p-column>
             </p-dataTable>
-            <p-panel *ngIf="updateContact">
+            <p-panel *ngIf="updateContact && contactSelected.contactGroups.length > 0">
                 <div class="ui-grid-row" *ngFor="let contactGroup of contactSelected.contactGroups">
-                    <div class="ui-grid-col">
-                        <div class="ui-grid-col-2"><label for="groupName">{{contactGroup.group.name}}: </label></div>
-                    </div>
-                    <div class="ui-grid-col">
-                        <div class="ui-grid-col-1"><label for="active">Active:</label></div>
-                        <div class="ui-grid-col-2">
-                            <p-checkbox id="active" [(ngModel)]="contactGroup.active" binary="true"></p-checkbox>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col">
+                            <div class="ui-grid-col-2"><label for="groupName">{{contactGroup.group.name}}: </label></div>
+                        </div>
+                        <div class="ui-grid-col">
+                            <div class="ui-grid-col-1"><label for="active">Active:</label></div>
+                            <div class="ui-grid-col-2">
+                                <p-checkbox id="active" [(ngModel)]="contactGroup.active" binary="true"></p-checkbox>
+                            </div>
+                        </div>
+                        <div class="ui-grid-col">
+                            <div class="ui-grid-col-2"><label for="unSubscribed">UnSubscribe:</label></div>
+                            <div class="ui-grid-col-2">
+                                <p-checkbox id="unSubscribed" [(ngModel)]="contactGroup.unSubscribed" binary="true"></p-checkbox>
+                            </div>
+                        </div>
+                        <div class="ui-grid-col">
+                            <div class="ui-grid-col-1"><label for="delete">Delete:</label></div>
+                            <div class="ui-grid-col-2">
+                                <p-checkbox id="delete" [(ngModel)]="contactGroup.delete" binary="true"></p-checkbox>
+                            </div>
                         </div>
                     </div>
-                    <div class="ui-grid-col">
-                        <div class="ui-grid-col-2"><label for="unSubscribed">UnSubscribe:</label></div>
-                        <div class="ui-grid-col-2">
-                            <p-checkbox id="unSubscribed" [(ngModel)]="contactGroup.unSubscribed" binary="true"></p-checkbox>
-                        </div>
-                    </div>
-                    <div class="ui-grid-col" *ngIf="contactSelected.contactGroups.length > 1">
-                        <div class="ui-grid-col-1"><label for="delete">Delete:</label></div>
-                        <div class="ui-grid-col-2">
-                            <p-checkbox id="delete" [(ngModel)]="contactGroup.delete" binary="true"></p-checkbox>
-                        </div>
-                    </div>
+                    <hr>
                 </div>
             </p-panel>
         </div>
@@ -100,7 +103,7 @@
             <div class="ui-grid-col">
                 <div class="ui-grid-col-2"><label for="firstName">First Name:</label></div>
                 <div class="ui-grid-col-4">
-                    <input [readonly]="updateContact" pInputText id="firstName" [(ngModel)]="contactNew.firstName" />
+                    <input pInputText id="firstName" [(ngModel)]="contactNew.firstName" />
                 </div>
             </div>
             <div class="ui-grid-col">
@@ -114,14 +117,14 @@
         <div class="ui-grid-row">
             <div class="ui-grid-col-2"><label for="lastName">Last Name:</label></div>
             <div class="ui-grid-col-8">
-                <input [readonly]="updateContact" pInputText id="lastName" [(ngModel)]="contactNew.lastName" />
+                <input pInputText id="lastName" [(ngModel)]="contactNew.lastName" />
             </div>
         </div>
         <br/>
         <div class="ui-grid-row">
             <div class="ui-grid-col-2"><label for="email">Email Id:</label></div>
             <div class="ui-grid-col-8">
-                <input pInputText [readonly]="updateContact" id="email" [(ngModel)]="contactNew.email" />
+                <input pInputText id="email" [(ngModel)]="contactNew.email" />
             </div>
         </div>
         <br/>
