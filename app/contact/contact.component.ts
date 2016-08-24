@@ -88,14 +88,16 @@ export class ContactComponent implements OnInit {
     createContactSubmit() {
         this.msgs = [];
         let contactGroups: ContactGroup[] = [];
-        for (let group of this.contactNew.groups) {
-            let contactGroup = new ContactGroup();
-            contactGroup.group = group;
-            contactGroup.active = true;
-            contactGroup.unSubscribed = false;
-            contactGroups.push(contactGroup);
+        if (this.contactNew.groups !== undefined) {
+            for (let group of this.contactNew.groups) {
+                let contactGroup = new ContactGroup();
+                contactGroup.group = group;
+                contactGroup.active = true;
+                contactGroup.unSubscribed = false;
+                contactGroups.push(contactGroup);
+            }
+            this.contactNew.contactGroups = contactGroups;
         }
-        this.contactNew.contactGroups = contactGroups;
         this.contactService.createContact(this.contactNew)
             .subscribe(() => {
                 this.getAllContacts();

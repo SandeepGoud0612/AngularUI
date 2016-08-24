@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { ContactComponent } from "../contact/contact.component";
 import { GroupComponent } from "../group/group.component";
-import { TabView, TabPanel, Panel, Button } from "primeng/primeng";
+import { TabView, TabPanel, Panel } from "primeng/primeng";
 
 @Component({
     templateUrl: "./app/dashboard/dashboard.component.html",
