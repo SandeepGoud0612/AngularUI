@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ContactService } from "./contact.service";
 import { Contact } from "./contact";
-import { DataTable, Column, InputText, Button, Header, Messages, Dropdown, Footer, Dialog, Checkbox, SelectItem, MultiSelect, Panel} from 'primeng/primeng';
+import { DataTable, Column, Button, Header, Footer, Dialog, SelectItem, MultiSelect, Panel, Growl} from 'primeng/primeng';
 import { Message } from "../message";
 import { ContactGroupService } from "../contactgroup/contactgroup.service";
 import { ContactGroup } from "../contactgroup/contactgroup";
@@ -12,7 +12,7 @@ import { GroupService } from "../group/group.service";
     selector: "my-contact",
     templateUrl: "app/contact/contact.component.html",
     styleUrls: ["app/contact/contact.component.css"],
-    directives: [DataTable, Column, InputText, Button, Header, Messages, Dropdown, Footer, Dialog, Checkbox, MultiSelect, Panel]
+    directives: [DataTable, Column, Button, Header, Footer, Dialog, MultiSelect, Panel, Growl]
 })
 export class ContactComponent implements OnInit {
 
