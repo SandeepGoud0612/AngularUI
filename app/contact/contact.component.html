@@ -2,7 +2,7 @@
 
 <form #contactForm="ngForm">
 
-    <p-dataTable [value]="contacts" [rows]="10" selectionMode="single" [responsive]="true" (onRowSelect)="onRowSelect($event)">
+    <p-dataTable [value]="contacts" selectionMode="single" [responsive]="true" (onRowSelect)="onRowSelect($event)">
         <header>Contacts</header>
         <p-column field="firstName" header="First Name" [sortable]="true" [filter]="true"></p-column>
         <p-column field="lastName" header="Last Name" [sortable]="true" [filter]="true"></p-column>
@@ -23,11 +23,13 @@
     <p-dialog [(visible)]="displayViewDialog" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="contactSelected" [width]="1000">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Contact Details</h3>
+                <center>
+                    <h3 class="panel-title">Contact Details</h3>
+                </center>
             </div>
 
             <div class="panel-body">
-               <div class="row">
+                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group" *ngIf="!updateContact">
                             <label for="firstName">First Name</label>
@@ -129,7 +131,9 @@
     <p-dialog [(visible)]="displayCreateDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="1000" *ngIf="contactNew">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Create Contact</h3>
+                <center>
+                    <h3 class="panel-title">Create Contact</h3>
+                </center>
             </div>
             <div class="panel-body">
                 <div class="row">

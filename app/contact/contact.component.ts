@@ -70,7 +70,7 @@ export class ContactComponent implements OnInit {
             );
     }
 
-    onRowSelect(event) {
+    onRowSelect(event:any) {
         this.contactSelected = event.data;
         this.displayViewDialog = true;
         this.updateContact = false;

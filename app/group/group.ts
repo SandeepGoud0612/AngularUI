@@ -7,4 +7,5 @@ export class Group {
     createdUser: any;
     name: string;
     comments: string;
+    contactCount: number;
 }
