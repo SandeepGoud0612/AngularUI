@@ -68,7 +68,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6" *ngIf="updateContact && moreGroupItems.length > 0">>
+                    <div class="col-md-6" *ngIf="updateContact && moreGroupItems.length > 0">
                         <div class="form-group">
                             <label for="groups">Groups</label>
                             <p-multiSelect id="groups" name="groups" [options]="moreGroupItems" [(ngModel)]="contactSelected.moreGroups" #groups="ngModel"
@@ -91,24 +91,24 @@
 
                 <div class="panel panel-default" *ngIf="updateContact && contactSelected.contactGroups.length > 0">
                     <div class="panel-body">
-                        <div class="row" *ngFor="let contactGroup of contactSelected.contactGroups">
-                            <div class="col-md-3">{{contactGroup.group.name}}:</div>
-                            <div class="col-md-3">
-                                <div class="checkbox">
-                                    <label><input id="active" name="active" type="checkbox" [(ngModel)]="contactGroup.active">Active</label>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="checkbox">
-                                    <label><input id="unSubscribed" name="unSubscribed" type="checkbox" [(ngModel)]="contactGroup.unSubscribed">UnSubscribe</label>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="checkbox">
-                                    <label><input id="delete" name="delete" type="checkbox" [(ngModel)]="contactGroup.delete">Delete</label>
-                                </div>
-                            </div>
-                        </div>
+                        <table class="table" *ngIf="updateContact && contactSelected.contactGroups.length > 0">
+                            <thead>
+                                <tr>
+                                    <th>Group Name</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let contactGroup of contactSelected.contactGroups">
+                                    <td>{{contactGroup.group.name}}</td>
+                                    <td><input id="active" name="active" type="checkbox" [(ngModel)]="contactGroup.active">Active</td>
+                                    <td><input id="unSubscribed" name="unSubscribed" type="checkbox" [(ngModel)]="contactGroup.unSubscribed">UnSubscribe</td>
+                                    <td><input id="delete" name="delete" type="checkbox" [(ngModel)]="contactGroup.delete">Delete</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="row">
