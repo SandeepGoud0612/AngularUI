@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { DataTable, Column, Growl, Message } from 'primeng/primeng';
 import { GroupService } from "./group.service";
 import { Group } from "./group";
+import { GroupSearchCriteria } from "./group_search_criteria";
 
 @Component({
     selector: "my-group",
@@ -15,6 +16,7 @@ export class GroupComponent implements OnInit {
     groupNew: Group;
     groupSelected: Group;
     groupUpdate: Group;
+    groupSearchCriteria = new GroupSearchCriteria();
 
     updateGroup: boolean;
     displayCreateDialog: boolean;
@@ -24,7 +26,15 @@ export class GroupComponent implements OnInit {
     constructor(private groupService: GroupService) { }
 
     ngOnInit() {
-        this.getAllGroups();
+        //this.getAllGroups();
+    }
+
+    searchGroupsByCriteria() {
+        this.groupService.getAllGroupsBySearchCriteria(this.groupSearchCriteria)
+            .subscribe(
+            groups => this.groups = groups,
+            error => this.msgs.push({ severity: "error", summary: "", detail: error })
+            );
     }
 
     getAllGroups() {

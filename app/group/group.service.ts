@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
 import { Group } from "./group";
 import { Observable } from "rxjs/Observable";
+import { GroupSearchCriteria } from "./group_search_criteria";
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
@@ -14,6 +15,14 @@ export class GroupService {
 
     getAllGroups(): Observable<Group[]> {
         return this.http.get(this.groupUrl)
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
+    getAllGroupsBySearchCriteria(groupSearchCriteria: GroupSearchCriteria): Observable<Group[]> {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        return this.http.post(this.groupUrl + "/searchCriteria", JSON.stringify(groupSearchCriteria), { headers: headers })
             .map(res => res.json())
             .catch(this.handleError);
     }

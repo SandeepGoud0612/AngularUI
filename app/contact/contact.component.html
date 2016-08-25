@@ -1,6 +1,6 @@
 <p-growl [value]="msgs" sticky="sticky"></p-growl>
 
-<form #contactForm="ngForm">
+<form #contactForm="ngForm" data-toggle="validator" role="form">
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -37,7 +37,7 @@
             <center>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <button type="submit" pButton icon="fa fa-search" pButton label="Search Contacts" (click)="searchContactsByCriteria()" style="height:35px;"></button>
+                        <button type="submit" pButton icon="fa fa-search" pButton label="Search Contacts" (click)="searchContactsByCriteria()"></button>
                     </div>
                 </div>
             </center>
@@ -202,7 +202,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="email">Email</label>
+                            <label for="email" class="control-label">Email</label>
                             <input type="email" class="form-control" id="email" required [(ngModel)]="contactNew.email" name="email" #email="ngModel">
                             <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
                                 Email is invalid
