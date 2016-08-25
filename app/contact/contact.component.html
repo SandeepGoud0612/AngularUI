@@ -186,8 +186,8 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="firstName">First Name</label>
-                            <input type="text" class="form-control" id="firstName" required [(ngModel)]="contactNew.firstName" name="firstName" #firstName="ngModel">
-                            <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">
+                            <input type="text" class="form-control" id="firstName" required [(ngModel)]="contactNew.firstName" name="firstNameCreate" #firstNameCreate="ngModel">
+                            <div [hidden]="firstNameCreate.valid || firstNameCreate.pristine" class="alert alert-danger">
                                 First name is required
                             </div>
                         </div>
@@ -195,8 +195,8 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="lastName">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" required [(ngModel)]="contactNew.lastName" name="lastName" #lastName="ngModel">
-                            <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">
+                            <input type="text" class="form-control" id="lastName" required [(ngModel)]="contactNew.lastName" name="lastNameCreate" #lastNameCreate="ngModel">
+                            <div [hidden]="lastNameCreate.valid || lastNameCreate.pristine" class="alert alert-danger">
                                 Last name is required
                             </div>
                         </div>
@@ -207,8 +207,8 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="email" class="control-label">Email</label>
-                            <input type="email" class="form-control" id="email" required [(ngModel)]="contactNew.email" name="email" #email="ngModel">
-                            <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+                            <input type="email" class="form-control" id="email" required [(ngModel)]="contactNew.email" name="emailCreate" #emailCreate="ngModel">
+                            <div [hidden]="emailCreate.valid || emailCreate.pristine" class="alert alert-danger">
                                 Email is invalid
                             </div>
                         </div>
@@ -216,7 +216,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="groups">Groups</label>
-                            <p-multiSelect id="groups" name="groups" [options]="commonService.groupItems" [(ngModel)]="contactNew.groups" #groups="ngModel"
+                            <p-multiSelect id="groups" name="groups" [options]="commonService.groupItems" [(ngModel)]="contactNew.groups"
                                 [style]="{'width':'100%'}"></p-multiSelect>
                         </div>
                     </div>
