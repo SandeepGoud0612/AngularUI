@@ -135,6 +135,7 @@
                         <center>
                             <button *ngIf="!updateContact" type="button" pButton icon="fa-pencil" (click)="updateContactClick()" label="Edit"></button>
                             <button *ngIf="!updateContact" type="submit" pButton icon="fa-trash" (click)="deleteSelectedContact()" label="Delete"></button>
+                            <button *ngIf="!updateContact" type="button" pButton icon="fa-close" (click)="viewDialogCancelClick()" label="Cancel"></button>
                         </center>
                     </div>
                 </div>

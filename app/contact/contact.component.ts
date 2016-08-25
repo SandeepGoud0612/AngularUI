@@ -39,6 +39,10 @@ export class ContactComponent implements OnInit {
         this.updateContact = false;
     }
 
+    viewDialogCancelClick(){
+         this.displayViewDialog = false;
+    }
+
     createContactClick() {
         this.contactNew = new Contact;
         this.displayCreateDialog = true;

@@ -94,6 +94,7 @@
                             <button *ngIf="!updateGroup" type="button" pButton icon="fa-pencil" (click)="updateGroupClick()" label="Edit"></button>
                             <button *ngIf="!updateGroup" [disabled]="groupSelected.contactCount > 0" type="submit" pButton icon="fa-trash" (click)="deleteSelectedGroup()"
                                 label="Delete"></button>
+                            <button *ngIf="!updateGroup" type="button" pButton icon="fa-close" (click)="viewDialogCancelClick()" label="Cancel"></button>
                             <button *ngIf="updateGroup" type="submit" pButton icon="fa-check" (click)="updateGroupSubmit()" label="Submit" [disabled]="!groupForm.form.valid"></button>
                             <button *ngIf="updateGroup" type="button" pButton icon="fa-close" (click)="dialogUpdateCancelClick()" label="Cancel"></button>
                         </center>

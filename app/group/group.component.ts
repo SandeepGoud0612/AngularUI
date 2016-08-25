@@ -29,6 +29,10 @@ export class GroupComponent {
         this.updateGroup = false;
     }
 
+    viewDialogCancelClick(){
+         this.displayViewDialog = false;
+    }
+
     createGroupClick() {
         this.groupNew = new Group();
         this.displayCreateDialog = true;
