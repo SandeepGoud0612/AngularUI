@@ -20,11 +20,12 @@
                     <label for="lastName">Comments</label>
                     <input type="text" class="form-control" id="comments" [(ngModel)]="commonService.groupSearchCriteria.comments" name="commentsSearchCriteria">
                 </div>
-            </div>         
+            </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <br/>
-                    <button type="submit" pButton icon="fa fa-search" pButton label="Search Groups" (click)="commonService.searchGroupsByCriteria()" style="height:35px;"></button>
+                    <button type="submit" pButton icon="fa fa-search" pButton label="Search Groups" (click)="commonService.searchGroupsByCriteria()"
+                        style="height:35px;"></button>
                 </div>
             </div>
         </div>
@@ -37,12 +38,12 @@
         <p-column field="comments" header="Comments" [sortable]="true" [filter]="true"></p-column>
         <footer>
             <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <button type="button" icon="fa fa-plus" pButton style="float:left" label="Create" (click)="createGroupClick()"></button>
-                    <button type="button" icon="fa fa-download" pButton style="float:left" label="Import"></button>
+                <div class="col-md-12">
+                    <center>
+                        <button type="button" icon="fa fa-plus" pButton label="Create" (click)="createGroupClick()"></button>
+                        <button type="button" icon="fa fa-download" pButton label="Import"></button>
+                    </center>
                 </div>
-                <div class="col-md-4"></div>
             </div>
         </footer>
     </p-dataTable>
@@ -88,15 +89,15 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4">
-                        <button *ngIf="!updateGroup" type="button" pButton icon="fa-pencil" (click)="updateGroupClick()" label="Edit"></button>
-                        <button *ngIf="!updateGroup" [disabled]="groupSelected.contactCount > 0" type="submit" pButton icon="fa-trash" (click)="deleteSelectedGroup()"
-                            label="Delete"></button>
-                        <button *ngIf="updateGroup" type="submit" pButton icon="fa-check" (click)="updateGroupSubmit()" label="Submit" [disabled]="!groupForm.form.valid"></button>
-                        <button *ngIf="updateGroup" type="button" pButton icon="fa-close" (click)="dialogUpdateCancelClick()" label="Cancel"></button>
+                    <div class="col-md-12">
+                        <center>
+                            <button *ngIf="!updateGroup" type="button" pButton icon="fa-pencil" (click)="updateGroupClick()" label="Edit"></button>
+                            <button *ngIf="!updateGroup" [disabled]="groupSelected.contactCount > 0" type="submit" pButton icon="fa-trash" (click)="deleteSelectedGroup()"
+                                label="Delete"></button>
+                            <button *ngIf="updateGroup" type="submit" pButton icon="fa-check" (click)="updateGroupSubmit()" label="Submit" [disabled]="!groupForm.form.valid"></button>
+                            <button *ngIf="updateGroup" type="button" pButton icon="fa-close" (click)="dialogUpdateCancelClick()" label="Cancel"></button>
+                        </center>
                     </div>
-                    <div class="col-md-4"></div>
                 </div>
             </div>
         </div>
@@ -129,12 +130,12 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4">
-                        <button type="submit" pButton icon="fa-check" (click)="createGroupSubmit()" label="Create" [disabled]="!groupForm.form.valid"></button>
-                        <button type="button" pButton icon="fa-close" (click)="createDialogCancelClick()" label="Cancel"></button>
+                    <div class="col-md-12">
+                        <center>
+                            <button type="submit" pButton icon="fa-check" (click)="createGroupSubmit()" label="Create" [disabled]="!groupForm.form.valid"></button>
+                            <button type="button" pButton icon="fa-close" (click)="createDialogCancelClick()" label="Cancel"></button>
+                        </center>
                     </div>
-                    <div class="col-md-4"></div>
                 </div>
                 <br/>
             </div>

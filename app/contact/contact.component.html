@@ -52,12 +52,12 @@
         <p-column field="groupDetails" header="Groups" [sortable]="true" [filter]="true" [colspan]="2"></p-column>
         <footer>
             <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <button type="button" icon="fa fa-plus" pButton style="float:left" label="Create" (click)="createContactClick()"></button>
-                    <button type="button" pButton icon="fa fa-download" style="float:left" label="Import"></button>
+                <div class="col-md-12">
+                    <center>
+                        <button type="button" icon="fa fa-plus" pButton label="Create" (click)="createContactClick()"></button>
+                        <button type="button" pButton icon="fa fa-download" label="Import"></button>
+                    </center>
                 </div>
-                <div class="col-md-4"></div>
             </div>
         </footer>
     </p-dataTable>
@@ -129,13 +129,14 @@
                     <p-column field="active" header="Active"></p-column>
                     <p-column field="unSubscribed" header="UnSubscribed"></p-column>
                 </p-dataTable>
+                <br/>
                 <div class="row">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4">
-                        <button *ngIf="!updateContact" type="button" pButton icon="fa-pencil" (click)="updateContactClick()" label="Edit"></button>
-                        <button *ngIf="!updateContact" type="submit" pButton icon="fa-trash" (click)="deleteSelectedContact()" label="Delete"></button>
+                    <div class="col-md-12">
+                        <center>
+                            <button *ngIf="!updateContact" type="button" pButton icon="fa-pencil" (click)="updateContactClick()" label="Edit"></button>
+                            <button *ngIf="!updateContact" type="submit" pButton icon="fa-trash" (click)="deleteSelectedContact()" label="Delete"></button>
+                        </center>
                     </div>
-                    <div class="col-md-4"></div>
                 </div>
                 <div class="panel panel-default" *ngIf="updateContact && contactSelected.contactGroups.length > 0">
                     <div class="panel-body">
@@ -159,13 +160,14 @@
                         </table>
                     </div>
                 </div>
+                <br/>
                 <div class="row">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4">
-                        <button *ngIf="updateContact" type="submit" pButton icon="fa-check" (click)="updateContactSubmit()" label="Submit" [disabled]="!contactForm.form.valid"></button>
-                        <button *ngIf="updateContact" type="button" pButton icon="fa-close" (click)="dialogUpdateCancelClick()" label="Cancel"></button>
+                    <div class="col-md-12">
+                        <center>
+                            <button *ngIf="updateContact" type="submit" pButton icon="fa-check" (click)="updateContactSubmit()" label="Submit" [disabled]="!contactForm.form.valid"></button>
+                            <button *ngIf="updateContact" type="button" pButton icon="fa-close" (click)="dialogUpdateCancelClick()" label="Cancel"></button>
+                        </center>
                     </div>
-                    <div class="col-md-4"></div>
                 </div>
             </div>
         </div>
@@ -220,12 +222,12 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <button type="submit" pButton icon="fa-check" (click)="createContactSubmit()" label="Create" [disabled]="!contactForm.form.valid"></button>
-                    <button type="button" pButton icon="fa-close" (click)="createDialogCancelClick()" label="Cancel"></button>
+                <div class="col-md-12">
+                    <center>
+                        <button type="submit" pButton icon="fa-check" (click)="createContactSubmit()" label="Create" [disabled]="!contactForm.form.valid"></button>
+                        <button type="button" pButton icon="fa-close" (click)="createDialogCancelClick()" label="Cancel"></button>
+                    </center>
                 </div>
-                <div class="col-md-4"></div>
             </div>
             <br/>
         </div>
