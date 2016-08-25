@@ -25,6 +25,7 @@ export class ContactComponent implements OnInit {
     groupItems: SelectItem[];
     moreGroupItems: SelectItem[];
     contactSearchCriteria = new ContactSearchCriteria();
+    groupNamesForSearch: SelectItem[];
 
     displayViewDialog: boolean;
     displayCreateDialog: boolean;
@@ -38,7 +39,7 @@ export class ContactComponent implements OnInit {
 
     ngOnInit() {
         //this.getAllContacts();
-        //this.getAllGroups();
+        this.getAllGroups();
     }
 
     getAllContactsBySearchCriteria() {
@@ -90,8 +91,10 @@ export class ContactComponent implements OnInit {
             .subscribe(
             groups => {
                 this.groupItems = [];
+                this.groupNamesForSearch = [];
                 for (let group of groups) {
                     this.groupItems.push({ label: group.name, value: group });
+                    this.groupNamesForSearch.push({ label: group.name, value: group.name });
                 }
             },
             error => this.msgs.push({ severity: "error", summary: "", detail: error })

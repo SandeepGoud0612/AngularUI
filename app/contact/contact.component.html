@@ -29,10 +29,18 @@
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <br/>
-                    <button type="submit" pButton icon="fa fa-search" pButton label="Search Contacts" (click)="searchContactsByCriteria()" style="height:35px;"></button>
+                    <label for="groups">Groups</label>
+                    <p-multiSelect id="groups" name="groups" [options]="groupNamesForSearch" [(ngModel)]="contactSearchCriteria.groupNames" #groups="ngModel"
+                        [style]="{'width':'100%'}"></p-multiSelect>
                 </div>
             </div>
+            <center>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <button type="submit" pButton icon="fa fa-search" pButton label="Search Contacts" (click)="searchContactsByCriteria()" style="height:35px;"></button>
+                    </div>
+                </div>
+            </center>
         </div>
     </div>
 
