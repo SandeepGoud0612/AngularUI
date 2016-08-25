@@ -12,39 +12,39 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="firstName">First Name</label>
-                    <input type="text" class="form-control" id="firstName" [(ngModel)]="contactSearchCriteria.firstName" name="firstName">
+                    <input type="text" class="form-control" id="firstName" [(ngModel)]="commonService.contactSearchCriteria.firstName" name="firstName">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="lastName">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" [(ngModel)]="contactSearchCriteria.lastName" name="lastName">
+                    <input type="text" class="form-control" id="lastName" [(ngModel)]="commonService.contactSearchCriteria.lastName" name="lastName">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="text" class="form-control" id="email" [(ngModel)]="contactSearchCriteria.email" name="email" #email="ngModel">
+                    <input type="text" class="form-control" id="email" [(ngModel)]="commonService.contactSearchCriteria.email" name="email" #email="ngModel">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="groups">Groups</label>
-                    <p-multiSelect id="groups" name="groups" [options]="groupNamesForSearch" [(ngModel)]="contactSearchCriteria.groupNames" #groups="ngModel"
+                    <p-multiSelect id="groups" name="groups" [options]="commonService.groupNamesForSearch" [(ngModel)]="commonService.contactSearchCriteria.groupNames" #groups="ngModel"
                         [style]="{'width':'100%'}"></p-multiSelect>
                 </div>
             </div>
             <center>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <button type="submit" pButton icon="fa fa-search" pButton label="Search Contacts" (click)="searchContactsByCriteria()"></button>
+                        <button type="submit" pButton icon="fa fa-search" pButton label="Search Contacts" (click)="commonService.getAllContactsBySearchCriteria()"></button>
                     </div>
                 </div>
             </center>
         </div>
     </div>
 
-    <p-dataTable [value]="contacts" selectionMode="single" [responsive]="true" (onRowSelect)="onRowSelect($event)">
+    <p-dataTable [value]="commonService.contacts" selectionMode="single" [responsive]="true" (onRowSelect)="onRowSelect($event)">
         <header>Contacts</header>
         <p-column field="firstName" header="First Name" [sortable]="true" [filter]="true"></p-column>
         <p-column field="lastName" header="Last Name" [sortable]="true" [filter]="true"></p-column>
@@ -212,7 +212,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="groups">Groups</label>
-                            <p-multiSelect id="groups" name="groups" [options]="groupItems" [(ngModel)]="contactNew.groups" #groups="ngModel" [style]="{'width':'100%'}"></p-multiSelect>
+                            <p-multiSelect id="groups" name="groups" [options]="commonService.groupItems" [(ngModel)]="contactNew.groups" #groups="ngModel" [style]="{'width':'100%'}"></p-multiSelect>
                         </div>
                     </div>
                 </div>

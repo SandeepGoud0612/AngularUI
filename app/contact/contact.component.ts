@@ -7,7 +7,7 @@ import { ContactGroupService } from "../contactgroup/contactgroup.service";
 import { ContactGroup } from "../contactgroup/contactgroup";
 import { Group } from "../group/group";
 import { GroupService } from "../group/group.service";
-import { ContactSearchCriteria } from "./contact_search_criteria";
+import { CommonService } from "../shared/common.service";
 
 @Component({
     selector: "my-contact",
@@ -18,87 +18,19 @@ import { ContactSearchCriteria } from "./contact_search_criteria";
 export class ContactComponent implements OnInit {
 
     msgs: Message[] = [];
-    contacts: Contact[];
     contactSelected: Contact;
     contactNew: Contact;
     contactUpdate: Contact;
-    groupItems: SelectItem[];
     moreGroupItems: SelectItem[];
-    contactSearchCriteria = new ContactSearchCriteria();
-    groupNamesForSearch: SelectItem[];
 
     displayViewDialog: boolean;
     displayCreateDialog: boolean;
     updateContact: boolean;
 
-    constructor(private contactService: ContactService, private groupService: GroupService) { }
-
-    searchContactsByCriteria() {
-        this.getAllContactsBySearchCriteria();
-    }
+    constructor(private contactService: ContactService, private groupService: GroupService, private commonService: CommonService) { }
 
     ngOnInit() {
-        //this.getAllContacts();
-        this.getAllGroups();
-    }
-
-    getAllContactsBySearchCriteria() {
-        this.contactService.getAllContactsByCriteria(this.contactSearchCriteria)
-            .subscribe(
-            contacts => {
-                this.contacts = contacts;
-                for (let contact of this.contacts) {
-                    for (let contactGroup of contact.contactGroups) {
-                        if (contact.groupDetails === undefined) {
-                            contact.groupDetails = contactGroup.group.name;
-                        } else {
-                            contact.groupDetails += ", " + contactGroup.group.name;
-                        }
-                    }
-                }
-            },
-
-            error => {
-                this.msgs.push({ severity: "error", summary: "", detail: error });
-            }
-            );
-    }
-
-    getAllContacts() {
-        this.contactService.getAllContacts()
-            .subscribe(
-            contacts => {
-                this.contacts = contacts;
-                for (let contact of this.contacts) {
-                    for (let contactGroup of contact.contactGroups) {
-                        if (contact.groupDetails === undefined) {
-                            contact.groupDetails = contactGroup.group.name;
-                        } else {
-                            contact.groupDetails += ", " + contactGroup.group.name;
-                        }
-                    }
-                }
-            },
-
-            error => {
-                this.msgs.push({ severity: "error", summary: "", detail: error });
-            }
-            );
-    }
-
-    getAllGroups() {
-        this.groupService.getAllGroups()
-            .subscribe(
-            groups => {
-                this.groupItems = [];
-                this.groupNamesForSearch = [];
-                for (let group of groups) {
-                    this.groupItems.push({ label: group.name, value: group });
-                    this.groupNamesForSearch.push({ label: group.name, value: group.name });
-                }
-            },
-            error => this.msgs.push({ severity: "error", summary: "", detail: error })
-            );
+        this.commonService.getAllGroups();
     }
 
     onRowSelect(event: any) {
@@ -131,7 +63,8 @@ export class ContactComponent implements OnInit {
         }
         this.contactService.createContact(this.contactNew)
             .subscribe(() => {
-                this.getAllContacts();
+                this.commonService.getAllContactsBySearchCriteria();
+                this.commonService.groups = [];
                 this.displayCreateDialog = false;
                 this.msgs.push({ severity: "info", summary: "Contact created successfully.", detail: "" });
             },
@@ -150,7 +83,7 @@ export class ContactComponent implements OnInit {
             contactGroup = this.cloneContactGroup(contactGroup);
             contactGroup.group = this.cloneGroup(contactGroup.group);
         }
-        for (let groupItem of this.groupItems) {
+        for (let groupItem of this.commonService.groupItems) {
             let groupFound: boolean = false;
             for (let contactGroup of this.contactSelected.contactGroups) {
                 if (contactGroup.group.name === groupItem.label) {
@@ -181,7 +114,8 @@ export class ContactComponent implements OnInit {
         }
         this.contactService.updateContact(this.contactSelected)
             .subscribe(() => {
-                this.getAllContacts();
+                this.commonService.getAllContactsBySearchCriteria();
+                this.commonService.groups = [];
                 this.displayViewDialog = true;
                 this.updateContact = false;
                 this.msgs.push({ severity: "info", summary: "Contact updated successfully.", detail: "" });
@@ -200,7 +134,8 @@ export class ContactComponent implements OnInit {
         this.msgs = [];
         this.contactService.deleteContact(this.contactSelected.id)
             .subscribe(() => {
-                this.getAllContacts();
+                this.commonService.getAllContactsBySearchCriteria();
+                this.commonService.groups = [];
                 this.msgs.push({ severity: "info", summary: "Contact deleted successfully.", detail: "" });
                 this.displayViewDialog = false;
             },

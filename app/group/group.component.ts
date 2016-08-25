@@ -1,49 +1,27 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ApplicationRef } from "@angular/core";
 import { DataTable, Column, Growl, Message } from 'primeng/primeng';
 import { GroupService } from "./group.service";
 import { Group } from "./group";
-import { GroupSearchCriteria } from "./group_search_criteria";
+import { CommonService } from "../shared/common.service";
 
 @Component({
     selector: "my-group",
     templateUrl: "app/group/group.component.html",
     directives: [DataTable, Column, Growl]
 })
-export class GroupComponent implements OnInit {
+export class GroupComponent {
 
     msgs: Message[] = [];
-    groups: Group[];
     groupNew: Group;
     groupSelected: Group;
     groupUpdate: Group;
-    groupSearchCriteria = new GroupSearchCriteria();
 
     updateGroup: boolean;
     displayCreateDialog: boolean;
     displayViewDialog: boolean;
     active: boolean = true;
 
-    constructor(private groupService: GroupService) { }
-
-    ngOnInit() {
-        //this.getAllGroups();
-    }
-
-    searchGroupsByCriteria() {
-        this.groupService.getAllGroupsBySearchCriteria(this.groupSearchCriteria)
-            .subscribe(
-            groups => this.groups = groups,
-            error => this.msgs.push({ severity: "error", summary: "", detail: error })
-            );
-    }
-
-    getAllGroups() {
-        this.groupService.getAllGroups()
-            .subscribe(
-            groups => this.groups = groups,
-            error => this.msgs.push({ severity: "error", summary: "", detail: error })
-            );
-    }
+    constructor(private groupService: GroupService, private commonService: CommonService) { }
 
     onRowSelect(event: any) {
         this.displayViewDialog = true;
@@ -66,8 +44,10 @@ export class GroupComponent implements OnInit {
         this.msgs = [];
         this.groupService.createGroup(this.groupNew)
             .subscribe(() => {
-                this.getAllGroups();
+                this.commonService.searchGroupsByCriteria();
                 this.displayCreateDialog = false;
+                this.commonService.getAllGroups();
+                this.commonService.contacts = [];
                 this.msgs.push({ severity: "info", summary: "Group created successfully.", detail: "" });
             },
             error => {
@@ -85,9 +65,10 @@ export class GroupComponent implements OnInit {
         this.msgs = [];
         this.groupService.deleteGroup(this.groupSelected.id)
             .subscribe(() => {
-                this.getAllGroups();
+                this.commonService.searchGroupsByCriteria();
                 this.msgs.push({ severity: "info", summary: "Group deleted successfully.", detail: "" });
                 this.displayViewDialog = false;
+                this.commonService.contacts = [];
             },
             error => {
                 this.msgs.push({ severity: "error", summary: "Group deletion failed.", detail: error });
@@ -98,9 +79,10 @@ export class GroupComponent implements OnInit {
         this.msgs = [];
         this.groupService.updateGroup(this.groupSelected)
             .subscribe(() => {
-                this.getAllGroups();
+                this.commonService.searchGroupsByCriteria();
                 this.displayViewDialog = true;
                 this.updateGroup = false;
+                this.commonService.contacts = [];
                 this.msgs.push({ severity: "info", summary: "Group updated successfully.", detail: "" });
             },
             error => {

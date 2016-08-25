@@ -12,25 +12,25 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="groupName">Group Name</label>
-                    <input type="text" class="form-control" id="groupName" [(ngModel)]="groupSearchCriteria.name" name="groupName">
+                    <input type="text" class="form-control" id="groupName" [(ngModel)]="commonService.groupSearchCriteria.name" name="groupName">
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="lastName">Comments</label>
-                    <input type="text" class="form-control" id="comments" [(ngModel)]="groupSearchCriteria.comments" name="comments">
+                    <input type="text" class="form-control" id="comments" [(ngModel)]="commonService.groupSearchCriteria.comments" name="comments">
                 </div>
             </div>         
             <div class="col-md-4">
                 <div class="form-group">
                     <br/>
-                    <button type="submit" pButton icon="fa fa-search" pButton label="Search Groups" (click)="searchGroupsByCriteria()" style="height:35px;"></button>
+                    <button type="submit" pButton icon="fa fa-search" pButton label="Search Groups" (click)="commonService.searchGroupsByCriteria()" style="height:35px;"></button>
                 </div>
             </div>
         </div>
     </div>
 
-    <p-dataTable [value]="groups" selectionMode="single" [responsive]="true" (onRowSelect)="onRowSelect($event)">
+    <p-dataTable [value]="commonService.groups" selectionMode="single" [responsive]="true" (onRowSelect)="onRowSelect($event)">
         <header>Groups</header>
         <p-column field="name" header="Group Name" [sortable]="true" [filter]="true"></p-column>
         <p-column field="contactCount" header="No of Contacts" [sortable]="true" [filter]="true"></p-column>
