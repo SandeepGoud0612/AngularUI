@@ -30,8 +30,8 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="groups">Groups</label>
-                    <p-multiSelect id="groups" name="groups" [options]="commonService.groupNamesForSearch" [(ngModel)]="commonService.contactSearchCriteria.groupNames" #groups="ngModel"
-                        [style]="{'width':'100%'}"></p-multiSelect>
+                    <p-multiSelect id="groups" name="groups" [options]="commonService.groupNamesForSearch" [(ngModel)]="commonService.contactSearchCriteria.groupNames"
+                        #groups="ngModel" [style]="{'width':'100%'}"></p-multiSelect>
                 </div>
             </div>
             <center>
@@ -128,14 +128,15 @@
                     <p-column field="group.name" header="Group Name"></p-column>
                     <p-column field="active" header="Active"></p-column>
                     <p-column field="unSubscribed" header="UnSubscribed"></p-column>
-                    <footer>
-                        <div class="ui-helper-clearfix" style="width:100%">
-                            <button *ngIf="!updateContact" type="button" pButton icon="fa-pencil" (click)="updateContactClick()" label="Edit"></button>
-                            <button *ngIf="!updateContact" type="submit" pButton icon="fa-trash" (click)="deleteSelectedContact()" label="Delete"></button>
-                        </div>
-                    </footer>
                 </p-dataTable>
-
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <button *ngIf="!updateContact" type="button" pButton icon="fa-pencil" (click)="updateContactClick()" label="Edit"></button>
+                        <button *ngIf="!updateContact" type="submit" pButton icon="fa-trash" (click)="deleteSelectedContact()" label="Delete"></button>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
                 <div class="panel panel-default" *ngIf="updateContact && contactSelected.contactGroups.length > 0">
                     <div class="panel-body">
                         <table class="table" *ngIf="updateContact && contactSelected.contactGroups.length > 0">
@@ -212,7 +213,8 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="groups">Groups</label>
-                            <p-multiSelect id="groups" name="groups" [options]="commonService.groupItems" [(ngModel)]="contactNew.groups" #groups="ngModel" [style]="{'width':'100%'}"></p-multiSelect>
+                            <p-multiSelect id="groups" name="groups" [options]="commonService.groupItems" [(ngModel)]="contactNew.groups" #groups="ngModel"
+                                [style]="{'width':'100%'}"></p-multiSelect>
                         </div>
                     </div>
                 </div>
