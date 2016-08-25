@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
-import { Http, Response, Headers } from "@angular/http";
+import { Http, Response, Headers, RequestOptions, URLSearchParams } from "@angular/http";
 import { Observable }     from "rxjs/Observable";
 import { Contact } from "./contact";
+import { ContactSearchCriteria } from "./contact_search_criteria";
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
@@ -17,6 +18,14 @@ export class ContactService {
         headers.append('Content-Type', 'application/json');
         return this.http.post(this.contactUrl, JSON.stringify(contact), { headers: headers })
             .map((res: Response) => { return; })
+            .catch(this.handleError);
+    }
+
+    getAllContactsByCriteria(contactSearchCriteria: ContactSearchCriteria): Observable<Contact[]> {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        return this.http.post(this.contactUrl + "/searchCriteria", JSON.stringify(contactSearchCriteria), { headers: headers })
+            .map(res => res.json())
             .catch(this.handleError);
     }
 

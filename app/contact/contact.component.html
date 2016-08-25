@@ -2,6 +2,40 @@
 
 <form #contactForm="ngForm">
 
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <center>
+                <h3 class="panel-title">Search Contacts</h3>
+            </center>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" class="form-control" id="firstName" [(ngModel)]="contactSearchCriteria.firstName" name="firstName">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" [(ngModel)]="contactSearchCriteria.lastName" name="lastName">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" id="email" [(ngModel)]="contactSearchCriteria.email" name="email" #email="ngModel">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <br/>
+                    <button type="submit" pButton icon="fa fa-search" pButton label="Search Contacts" (click)="searchContactsByCriteria()" style="height:35px;"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <p-dataTable [value]="contacts" selectionMode="single" [responsive]="true" (onRowSelect)="onRowSelect($event)">
         <header>Contacts</header>
         <p-column field="firstName" header="First Name" [sortable]="true" [filter]="true"></p-column>
@@ -12,8 +46,8 @@
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
-                    <button type="button" pButton style="float:left" label="Create" (click)="createContactClick()"></button>
-                    <button type="button" pButton style="float:left" label="Import"></button>
+                    <button type="button" icon="fa fa-plus" pButton style="float:left" label="Create" (click)="createContactClick()"></button>
+                    <button type="button" pButton icon="fa fa-download" style="float:left" label="Import"></button>
                 </div>
                 <div class="col-md-4"></div>
             </div>

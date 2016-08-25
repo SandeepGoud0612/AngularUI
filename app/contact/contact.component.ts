@@ -7,6 +7,7 @@ import { ContactGroupService } from "../contactgroup/contactgroup.service";
 import { ContactGroup } from "../contactgroup/contactgroup";
 import { Group } from "../group/group";
 import { GroupService } from "../group/group.service";
+import { ContactSearchCriteria } from "./contact_search_criteria";
 
 @Component({
     selector: "my-contact",
@@ -23,6 +24,7 @@ export class ContactComponent implements OnInit {
     contactUpdate: Contact;
     groupItems: SelectItem[];
     moreGroupItems: SelectItem[];
+    contactSearchCriteria = new ContactSearchCriteria();
 
     displayViewDialog: boolean;
     displayCreateDialog: boolean;
@@ -30,9 +32,35 @@ export class ContactComponent implements OnInit {
 
     constructor(private contactService: ContactService, private groupService: GroupService) { }
 
+    searchContactsByCriteria() {
+        this.getAllContactsBySearchCriteria();
+    }
+
     ngOnInit() {
-        this.getAllContacts();
-        this.getAllGroups();
+        //this.getAllContacts();
+        //this.getAllGroups();
+    }
+
+    getAllContactsBySearchCriteria() {
+        this.contactService.getAllContactsByCriteria(this.contactSearchCriteria)
+            .subscribe(
+            contacts => {
+                this.contacts = contacts;
+                for (let contact of this.contacts) {
+                    for (let contactGroup of contact.contactGroups) {
+                        if (contact.groupDetails === undefined) {
+                            contact.groupDetails = contactGroup.group.name;
+                        } else {
+                            contact.groupDetails += ", " + contactGroup.group.name;
+                        }
+                    }
+                }
+            },
+
+            error => {
+                this.msgs.push({ severity: "error", summary: "", detail: error });
+            }
+            );
     }
 
     getAllContacts() {
@@ -70,7 +98,7 @@ export class ContactComponent implements OnInit {
             );
     }
 
-    onRowSelect(event:any) {
+    onRowSelect(event: any) {
         this.contactSelected = event.data;
         this.displayViewDialog = true;
         this.updateContact = false;

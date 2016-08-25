@@ -5,7 +5,7 @@
         </center>
     </div>
     <div class="panel-body">
-        <p-tabView>
+        <p-tabView (onChange)="handleTabChange($event)">
             <p-tabPanel header="Conacts" [selected]="true">
                 <my-contact></my-contact>
             </p-tabPanel>

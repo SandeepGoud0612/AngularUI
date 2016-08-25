@@ -8,5 +8,18 @@ import { TabView, TabPanel, Panel } from "primeng/primeng";
     directives: [TabView, TabPanel, Panel, ContactComponent, GroupComponent]
 })
 export class DashboardComponent {
-    title: string = "Mass Mailing Application";  
+
+    title: string = "Mass Mailing Application";
+
+    handleTabChange(e: any) {
+        var index = e.index;
+        if (index === 0) {
+           
+        } else if (index === 1) {
+
+        } else if (index === 2) {
+
+        }
+    }
+
 }
