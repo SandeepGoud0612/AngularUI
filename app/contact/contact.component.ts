@@ -26,6 +26,7 @@ export class ContactComponent implements OnInit {
     displayViewDialog: boolean;
     displayCreateDialog: boolean;
     updateContact: boolean;
+    active: boolean = true;
 
     constructor(private contactService: ContactService, private groupService: GroupService, private commonService: CommonService) { }
 
@@ -39,13 +40,15 @@ export class ContactComponent implements OnInit {
         this.updateContact = false;
     }
 
-    viewDialogCancelClick(){
-         this.displayViewDialog = false;
+    viewDialogCancelClick() {
+        this.displayViewDialog = false;
     }
 
     createContactClick() {
         this.contactNew = new Contact;
         this.displayCreateDialog = true;
+        this.active = false;
+        setTimeout(() => this.active = true, 0);
     }
 
     createDialogCancelClick() {

@@ -1,6 +1,6 @@
 <p-growl [value]="msgs" sticky="sticky"></p-growl>
 
-<form #contactForm="ngForm" data-toggle="validator" role="form">
+<form #contactForm="ngForm" *ngIf="active">
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -75,13 +75,13 @@
                     <div class="col-md-6">
                         <div class="form-group" *ngIf="!updateContact">
                             <label for="firstName">First Name</label>
-                            <input disabled type="text" class="form-control" id="firstName" required [(ngModel)]="contactSelected.firstName" name="firstName">
+                            <input disabled type="text" class="form-control" id="firstName" required [(ngModel)]="contactSelected.firstName" name="firstNameView">
                         </div>
                         <div class="form-group" *ngIf="updateContact">
                             <label for="firstName">First Name</label>
-                            <input type="text" class="form-control" id="firstName" required [(ngModel)]="contactSelected.firstName" name="firstName"
-                                #firstName="ngModel">
-                            <div [hidden]="firstName.valid || firstName.pristine" class="alert alert-danger">
+                            <input type="text" class="form-control" id="firstName" required [(ngModel)]="contactSelected.firstName" name="firstNameView"
+                                #firstNameView="ngModel">
+                            <div [hidden]="firstNameView.valid || firstNameView.pristine" class="alert alert-danger">
                                 First name is required
                             </div>
                         </div>
@@ -89,12 +89,13 @@
                     <div class="col-md-6">
                         <div class="form-group" *ngIf="!updateContact">
                             <label for="firstName">Last Name</label>
-                            <input disabled type="text" class="form-control" id="lastName" required [(ngModel)]="contactSelected.lastName" name="lastName">
+                            <input disabled type="text" class="form-control" id="lastName" required [(ngModel)]="contactSelected.lastName" name="lastNameView">
                         </div>
                         <div class="form-group" *ngIf="updateContact">
                             <label for="firstName">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" required [(ngModel)]="contactSelected.lastName" name="lastName" #lastName="ngModel">
-                            <div [hidden]="lastName.valid || lastName.pristine" class="alert alert-danger">
+                            <input type="text" class="form-control" id="lastName" required [(ngModel)]="contactSelected.lastName" name="lastNameView"
+                                #lastNameView="ngModel">
+                            <div [hidden]="lastNameView.valid || lastNameView.pristine" class="alert alert-danger">
                                 Last name is required
                             </div>
                         </div>
@@ -105,12 +106,12 @@
                     <div class="col-md-6">
                         <div class="form-group" *ngIf="!updateContact">
                             <label for="email">Email</label>
-                            <input disabled type="text" class="form-control" id="email" required [(ngModel)]="contactSelected.email" name="email" #email="ngModel">
+                            <input disabled type="text" class="form-control" id="email" required [(ngModel)]="contactSelected.email" name="emailView">
                         </div>
                         <div class="form-group" *ngIf="updateContact">
                             <label for="email">Email</label>
-                            <input type="text" class="form-control" id="email" required [(ngModel)]="contactSelected.email" name="email" #email="ngModel">
-                            <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+                            <input type="text" class="form-control" id="email" required [(ngModel)]="contactSelected.email" name="emailView" #emailView="ngModel">
+                            <div [hidden]="emailView.valid || emailView.pristine" class="alert alert-danger">
                                 Email is required
                             </div>
                         </div>
@@ -118,8 +119,7 @@
                     <div class="col-md-6" *ngIf="updateContact && moreGroupItems.length > 0">
                         <div class="form-group">
                             <label for="groups">Groups</label>
-                            <p-multiSelect id="groups" name="groups" [options]="moreGroupItems" [(ngModel)]="contactSelected.moreGroups" #groups="ngModel"
-                                [style]="{'width':'100%'}"></p-multiSelect>
+                            <p-multiSelect id="groups" name="groups" [options]="moreGroupItems" [(ngModel)]="contactSelected.moreGroups" [style]="{'width':'100%'}"></p-multiSelect>
                         </div>
                     </div>
                 </div>
