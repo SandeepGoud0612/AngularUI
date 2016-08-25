@@ -12,13 +12,13 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="groupName">Group Name</label>
-                    <input type="text" class="form-control" id="groupName" [(ngModel)]="commonService.groupSearchCriteria.name" name="groupName">
+                    <input type="text" class="form-control" id="groupName" [(ngModel)]="commonService.groupSearchCriteria.name" name="groupNameSearchCriteria">
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="lastName">Comments</label>
-                    <input type="text" class="form-control" id="comments" [(ngModel)]="commonService.groupSearchCriteria.comments" name="comments">
+                    <input type="text" class="form-control" id="comments" [(ngModel)]="commonService.groupSearchCriteria.comments" name="commentsSearchCriteria">
                 </div>
             </div>         
             <div class="col-md-4">
@@ -60,7 +60,7 @@
                 <div class="row">
                     <div class="form-group" *ngIf="!updateGroup">
                         <label for="name">Group Name</label>
-                        <input disabled type="text" class="form-control" id="name" required [(ngModel)]="groupSelected.name" name="name" #name="ngModel">
+                        <input disabled type="text" class="form-control" id="name" required [(ngModel)]="groupSelected.name" name="groupName" #groupName="ngModel">
                     </div>
                     <div class="form-group" *ngIf="updateGroup">
                         <label for="name">Group Name</label>

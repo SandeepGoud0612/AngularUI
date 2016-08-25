@@ -12,26 +12,26 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="firstName">First Name</label>
-                    <input type="text" class="form-control" id="firstName" [(ngModel)]="commonService.contactSearchCriteria.firstName" name="firstName">
+                    <input type="text" class="form-control" id="firstName" [(ngModel)]="commonService.contactSearchCriteria.firstName" name="firstNameSearchCriteria">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="lastName">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" [(ngModel)]="commonService.contactSearchCriteria.lastName" name="lastName">
+                    <input type="text" class="form-control" id="lastName" [(ngModel)]="commonService.contactSearchCriteria.lastName" name="lastNameSearchCriteria">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="text" class="form-control" id="email" [(ngModel)]="commonService.contactSearchCriteria.email" name="email" #email="ngModel">
+                    <input type="text" class="form-control" id="email" [(ngModel)]="commonService.contactSearchCriteria.email" name="emailSearchCriteria">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="groups">Groups</label>
-                    <p-multiSelect id="groups" name="groups" [options]="commonService.groupNamesForSearch" [(ngModel)]="commonService.contactSearchCriteria.groupNames"
-                        #groups="ngModel" [style]="{'width':'100%'}"></p-multiSelect>
+                    <p-multiSelect id="groups" name="groupsSearchCriteria" [options]="commonService.groupNamesForSearch" [(ngModel)]="commonService.contactSearchCriteria.groupNames"
+                        [style]="{'width':'100%'}"></p-multiSelect>
                 </div>
             </div>
             <center>
