@@ -1,0 +1,20 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <center>
+            <h3 class="panel-title">{{title}}</h3>
+        </center>
+    </div>
+    <div class="panel-body">
+        <p-tabView>
+            <p-tabPanel header="Conacts" [selected]="true">
+                <my-contact></my-contact>
+            </p-tabPanel>
+            <p-tabPanel header="Groups">
+                <my-group></my-group>
+            </p-tabPanel>
+            <p-tabPanel header="Emails">
+                <my-validation></my-validation>
+            </p-tabPanel>
+        </p-tabView>
+    </div>
+</div>

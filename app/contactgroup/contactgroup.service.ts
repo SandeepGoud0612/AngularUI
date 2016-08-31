@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ContactGroupService {
 
-    private contactgroupUrl = "http://localhost:8001/contactgroups";
+    private contactgroupUrl = "http://localhost:8080/contactgroups";
 
     constructor(private http: Http) { }
 

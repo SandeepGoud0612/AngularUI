@@ -9,7 +9,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class GroupService {
 
-    private groupUrl = "http://localhost:8001/groups";
+    private groupUrl = "http://localhost:8080/groups";
 
     constructor(private http: Http) { }
 

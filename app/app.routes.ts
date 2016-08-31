@@ -1,6 +1,7 @@
 import { RouterConfig, provideRouter } from "@angular/router";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { ContactComponent } from "./contact/contact.component";
+import { GroupComponent } from "./group/group.component";
 
 const routes: RouterConfig = [
     {
@@ -10,6 +11,14 @@ const routes: RouterConfig = [
     {
         path: "dashboard",
         component: DashboardComponent
+    },
+    {
+        path: "contacts",
+        component: ContactComponent
+    },
+    {
+        path: "groups",
+        component: GroupComponent
     }
 ];
 
