@@ -15,10 +15,12 @@ export class DashboardComponent {
     sideMenuClick(index: number) {
         if (index == 1) {
             this.sideMenuSeleted = "dashboard";
+        }else if (index == 2) {
+            this.sideMenuSeleted = "emails";
         }
-        else if (index == 2) {
+        else if (index == 3) {
             this.sideMenuSeleted = "contacts";
-        } else if (index == 3) {
+        } else if (index == 4) {
             this.sideMenuSeleted = "groups";
         }
     }
