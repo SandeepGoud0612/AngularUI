@@ -186,7 +186,8 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="firstName">First Name</label>
-                            <input type="text" class="form-control" id="firstName" required [(ngModel)]="contactNew.firstName" name="firstNameCreate" #firstNameCreate="ngModel">
+                            <input type="text" class="form-control" id="firstName" required [(ngModel)]="contactNew.firstName" name="firstNameCreate"
+                                #firstNameCreate="ngModel">
                             <div [hidden]="firstNameCreate.valid || firstNameCreate.pristine" class="alert alert-danger">
                                 First name is required
                             </div>
@@ -216,8 +217,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="groups">Groups</label>
-                            <p-multiSelect id="groups" name="groups" [options]="commonService.groupItems" [(ngModel)]="contactNew.groups"
-                                [style]="{'width':'100%'}"></p-multiSelect>
+                            <p-multiSelect id="groups" name="groups" [options]="commonService.groupItems" [(ngModel)]="contactNew.groups" [style]="{'width':'100%'}"></p-multiSelect>
                         </div>
                     </div>
                 </div>
