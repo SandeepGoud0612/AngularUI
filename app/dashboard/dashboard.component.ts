@@ -23,7 +23,7 @@ export class DashboardComponent {
             this.sideMenuSeleted = "contacts";
         } else if (index == 4) {
             this.sideMenuSeleted = "groups";
-        } else if (index == 4) {
+        } else if (index == 5) {
             this.sideMenuSeleted = "reports";
         }
     }

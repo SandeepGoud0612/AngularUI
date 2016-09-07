@@ -6,7 +6,7 @@ import { Observable } from "rxjs/Observable";
 @Injectable()
 export class EmailService {
 
-    private emailUrl = "http://localhost:8080/emails";
+    private emailUrl = "/emails";
 
     constructor(private http: Http) { }
 
