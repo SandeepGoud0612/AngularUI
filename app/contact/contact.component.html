@@ -9,42 +9,44 @@
             </center>
         </div>
         <div class="panel-body">
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <div class="form-group">
-                    <label for="firstName">First Name</label>
-                    <input type="text" class="form-control" id="firstName" [(ngModel)]="commonService.contactSearchCriteria.firstName" name="firstNameSearchCriteria">
+                    <input type="text" placeholder="First Name" class="form-control" id="firstName" [(ngModel)]="commonService.contactSearchCriteria.firstName"
+                        name="firstNameSearchCriteria">
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <div class="form-group">
-                    <label for="lastName">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" [(ngModel)]="commonService.contactSearchCriteria.lastName" name="lastNameSearchCriteria">
+                    <input type="text" placeholder="Last Name" class="form-control" id="lastName" [(ngModel)]="commonService.contactSearchCriteria.lastName"
+                        name="lastNameSearchCriteria">
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="text" class="form-control" id="email" [(ngModel)]="commonService.contactSearchCriteria.email" name="emailSearchCriteria">
+                    <input type="text" placeholder="Email" class="form-control" id="email" [(ngModel)]="commonService.contactSearchCriteria.email"
+                        name="emailSearchCriteria">
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <div class="form-group">
-                    <label for="groups">Groups</label>
-                    <p-multiSelect id="groups" name="groupsSearchCriteria" [options]="commonService.groupNamesForSearch" [(ngModel)]="commonService.contactSearchCriteria.groupNames"
-                        [style]="{'width':'100%'}"></p-multiSelect>
+                    <p-multiSelect id="groups" defaultLabel="Choose Groups" name="groupsSearchCriteria" [options]="commonService.groupNamesForSearch"
+                       (onChange)="onSelectItemChange()" [(ngModel)]="commonService.contactSearchCriteria.groupIds" [style]="{'width':'100%'}" required #groupsSearchCriteria="ngModel"></p-multiSelect>
+                    <div [hidden]="groupsSearchCriteria.valid || groupsSearchCriteria.pristine" class="alert alert-danger">
+                        Choose atleast one Group
+                    </div>
                 </div>
             </div>
             <center>
                 <div class="col-md-12">
-                    <div class="form-group">
-                        <button type="submit" pButton icon="fa fa-search" pButton label="Search Contacts" (click)="commonService.getAllContactsBySearchCriteria()"></button>
-                    </div>
+                    <button type="submit" [disabled]="!contactForm.form.valid" pButton icon="fa fa-search" pButton label="Search" (click)="commonService.getAllContactsBySearchCriteria()"></button>
+                    <button type="button" pButton icon="fa fa-refresh" pButton label="Reset" (click)="commonService.resetContactsBySearchCriteria()"></button>
                 </div>
             </center>
         </div>
     </div>
 
-    <p-dataTable [value]="commonService.contacts" selectionMode="single" [responsive]="true" (onRowSelect)="onRowSelect($event)">
+    <p-dataTable [value]="commonService.contacts" [rows]="50" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[10,20,50]"
+        selectionMode="single" [responsive]="true" (onRowSelect)="onRowSelect($event)">
         <header>Contacts</header>
         <p-column field="firstName" header="First Name" [sortable]="true" [filter]="true"></p-column>
         <p-column field="lastName" header="Last Name" [sortable]="true" [filter]="true"></p-column>

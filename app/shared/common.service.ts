@@ -18,7 +18,12 @@ export class CommonService {
     groupSearchCriteria = new GroupSearchCriteria();
 
     constructor(private contactService: ContactService, private groupService: GroupService) { }
-   
+
+    resetContactsBySearchCriteria() {
+        this.contacts = [];
+        this.contactSearchCriteria = new ContactSearchCriteria();
+    }
+
     getAllContacts() {
         this.contactService.getAllContacts()
             .subscribe(
@@ -63,7 +68,7 @@ export class CommonService {
                 this.groupNamesForSearch = [];
                 for (let group of groups) {
                     this.groupItems.push({ label: group.name, value: group });
-                    this.groupNamesForSearch.push({ label: group.name, value: group.name });
+                    this.groupNamesForSearch.push({ label: group.name, value: group.id });
                 }
             }
             );

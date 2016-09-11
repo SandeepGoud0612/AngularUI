@@ -8,6 +8,7 @@ import { ContactGroup } from "../contactgroup/contactgroup";
 import { Group } from "../group/group";
 import { GroupService } from "../group/group.service";
 import { CommonService } from "../shared/common.service";
+import { ContactSearchCriteria } from "../contact/contact_search_criteria";
 
 @Component({
     selector: "my-contact",
@@ -32,6 +33,14 @@ export class ContactComponent implements OnInit {
 
     ngOnInit() {
         this.commonService.getAllGroups();
+    }
+
+    onSelectItemChange() {
+        if(this.commonService.contactSearchCriteria.groupIds !== undefined && this.commonService.contactSearchCriteria.groupIds.length <= 0){
+            this.commonService.contactSearchCriteria.groupIds = undefined;
+        }
+        this.active = false;
+        setTimeout(() => this.active = true, 0);
     }
 
     onRowSelect(event: any) {
