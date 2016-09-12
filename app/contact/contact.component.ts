@@ -83,7 +83,8 @@ export class ContactComponent implements OnInit {
         }
         this.contactService.createContact(this.contactNew)
             .subscribe(() => {
-                this.commonService.getAllContactsBySearchCriteria();
+                //this.commonService.getAllContactsBySearchCriteria();
+                this.commonService.resetContactsBySearchCriteria();
                 this.commonService.groups = [];
                 this.displayCreateDialog = false;
                 this.msgs.push({ severity: "info", summary: "Contact created successfully.", detail: "" });
@@ -133,8 +134,10 @@ export class ContactComponent implements OnInit {
             this.contactSelected.contactGroups.push(contactGroup);
         }
         this.contactService.updateContact(this.contactSelected)
-            .subscribe(() => {
-                this.commonService.getAllContactsBySearchCriteria();
+            .subscribe(contactUpdated => {
+                this.contactSelected = contactUpdated;
+                //this.commonService.getAllContactsBySearchCriteria();
+                this.commonService.resetContactsBySearchCriteria();
                 this.commonService.groups = [];
                 this.displayViewDialog = true;
                 this.updateContact = false;
@@ -154,7 +157,8 @@ export class ContactComponent implements OnInit {
         this.msgs = [];
         this.contactService.deleteContact(this.contactSelected.id)
             .subscribe(() => {
-                this.commonService.getAllContactsBySearchCriteria();
+                //this.commonService.getAllContactsBySearchCriteria();
+                this.commonService.resetContactsBySearchCriteria();
                 this.commonService.groups = [];
                 this.msgs.push({ severity: "info", summary: "Contact deleted successfully.", detail: "" });
                 this.displayViewDialog = false;

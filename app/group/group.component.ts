@@ -29,8 +29,8 @@ export class GroupComponent {
         this.updateGroup = false;
     }
 
-    viewDialogCancelClick(){
-         this.displayViewDialog = false;
+    viewDialogCancelClick() {
+        this.displayViewDialog = false;
     }
 
     createGroupClick() {
@@ -48,7 +48,8 @@ export class GroupComponent {
         this.msgs = [];
         this.groupService.createGroup(this.groupNew)
             .subscribe(() => {
-                this.commonService.searchGroupsByCriteria();
+                //this.commonService.searchGroupsByCriteria();
+                this.commonService.resetGroupsBySearchCriteria();
                 this.displayCreateDialog = false;
                 this.commonService.getAllGroups();
                 this.commonService.contacts = [];
@@ -69,7 +70,8 @@ export class GroupComponent {
         this.msgs = [];
         this.groupService.deleteGroup(this.groupSelected.id)
             .subscribe(() => {
-                this.commonService.searchGroupsByCriteria();
+                //this.commonService.searchGroupsByCriteria();
+                this.commonService.resetGroupsBySearchCriteria();
                 this.msgs.push({ severity: "info", summary: "Group deleted successfully.", detail: "" });
                 this.displayViewDialog = false;
                 this.commonService.contacts = [];
@@ -82,8 +84,10 @@ export class GroupComponent {
     updateGroupSubmit() {
         this.msgs = [];
         this.groupService.updateGroup(this.groupSelected)
-            .subscribe(() => {
-                this.commonService.searchGroupsByCriteria();
+            .subscribe(groupUpdated => {
+                this.groupSelected = groupUpdated;
+                //this.commonService.searchGroupsByCriteria();
+                this.commonService.resetGroupsBySearchCriteria();
                 this.displayViewDialog = true;
                 this.updateGroup = false;
                 this.commonService.contacts = [];

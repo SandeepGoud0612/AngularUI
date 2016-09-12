@@ -9,24 +9,15 @@
             </center>
         </div>
         <div class="panel-body">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-group">
-                    <label for="groupName">Group Name</label>
-                    <input type="text" class="form-control" id="groupName" [(ngModel)]="commonService.groupSearchCriteria.name" name="groupNameSearchCriteria">
+                    <input type="text" placeholder="Group Name" class="form-control" id="groupName" [(ngModel)]="commonService.groupSearchCriteria.name"
+                        name="groupNameSearchCriteria">
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="lastName">Comments</label>
-                    <input type="text" class="form-control" id="comments" [(ngModel)]="commonService.groupSearchCriteria.comments" name="commentsSearchCriteria">
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <br/>
-                    <button type="submit" pButton icon="fa fa-search" pButton label="Search Groups" (click)="commonService.searchGroupsByCriteria()"
-                        style="height:35px;"></button>
-                </div>
+            <div class="col-md-6">
+                <button type="submit" pButton icon="fa fa-search" pButton label="Search" (click)="commonService.searchGroupsByCriteria()"></button>
+                <button type="button" pButton icon="fa fa-refresh" pButton label="Reset" (click)="commonService.resetGroupsBySearchCriteria()"></button>
             </div>
         </div>
     </div>
@@ -35,7 +26,6 @@
         (onRowSelect)="onRowSelect($event)">
         <header>Groups</header>
         <p-column field="name" header="Group Name" [sortable]="true" [filter]="true"></p-column>
-        <p-column field="contactCount" header="No of Contacts" [sortable]="true" [filter]="true"></p-column>
         <p-column field="comments" header="Comments" [sortable]="true" [filter]="true"></p-column>
         <footer>
             <div class="row">
@@ -81,12 +71,6 @@
                     <div class="form-group" *ngIf="updateGroup">
                         <label for="comments">Comments</label>
                         <input type="text" class="form-control" id="comments" [(ngModel)]="groupSelected.comments" name="commentsView">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="comments">No of Contacts</label>
-                        <input disabled type="text" class="form-control" id="contactCount" [(ngModel)]="groupSelected.contactCount" name="contactCountView">
                     </div>
                 </div>
             </div>

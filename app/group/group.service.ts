@@ -39,7 +39,7 @@ export class GroupService {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         return this.http.put(this.groupUrl + "/" + group.id, JSON.stringify(group), { headers: headers })
-            .map((res: Response) => { return; })
+            .map((res: Response) => res.json())
             .catch(this.handleError);
     }
 

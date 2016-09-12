@@ -45,7 +45,7 @@ export class ContactService {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         return this.http.put(this.contactUrl + "/" + contact.id, JSON.stringify(contact), { headers: headers })
-            .map((res: Response) => { return; })
+            .map((res: Response) => res.json())
             .catch(this.handleError);
     }
 

@@ -24,6 +24,11 @@ export class CommonService {
         this.contactSearchCriteria = new ContactSearchCriteria();
     }
 
+    resetGroupsBySearchCriteria() {
+        this.groups = [];
+        this.groupSearchCriteria = new GroupSearchCriteria();
+    }
+
     getAllContacts() {
         this.contactService.getAllContacts()
             .subscribe(
