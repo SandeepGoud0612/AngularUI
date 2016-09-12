@@ -36,11 +36,11 @@ export class ContactComponent implements OnInit {
     }
 
     onSelectItemChange() {
-        if(this.commonService.contactSearchCriteria.groupIds !== undefined && this.commonService.contactSearchCriteria.groupIds.length <= 0){
+        this.active = false;
+        setTimeout(() => this.active = true, 0);        
+        if (this.commonService.contactSearchCriteria.groupIds !== undefined && this.commonService.contactSearchCriteria.groupIds.length <= 0) {
             this.commonService.contactSearchCriteria.groupIds = undefined;
         }
-        this.active = false;
-        setTimeout(() => this.active = true, 0);
     }
 
     onRowSelect(event: any) {

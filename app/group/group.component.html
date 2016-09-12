@@ -2,7 +2,7 @@
 
 <form *ngIf="active" #groupForm="ngForm">
 
-    <div class="panel panel-default">
+    <div class="panel panel-default" *ngIf="!displayViewDialog && !displayCreateDialog">
         <div class="panel-heading">
             <center>
                 <h3 class="panel-title">Search Groups</h3>
@@ -31,7 +31,8 @@
         </div>
     </div>
 
-    <p-dataTable [value]="commonService.groups" selectionMode="single" [responsive]="true" (onRowSelect)="onRowSelect($event)">
+    <p-dataTable [value]="commonService.groups" *ngIf="!displayViewDialog && !displayCreateDialog" selectionMode="single" [responsive]="true"
+        (onRowSelect)="onRowSelect($event)">
         <header>Groups</header>
         <p-column field="name" header="Group Name" [sortable]="true" [filter]="true"></p-column>
         <p-column field="contactCount" header="No of Contacts" [sortable]="true" [filter]="true"></p-column>
@@ -48,103 +49,103 @@
         </footer>
     </p-dataTable>
 
-    <p-dialog [(visible)]="displayViewDialog" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="groupSelected" [width]="800">
+    <!-- <p-dialog [(visible)]="displayViewDialog" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="groupSelected" [width]="800"> -->
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <center>
-                    <h3 class="panel-title">Group Details</h3>
-                </center>
-            </div>
-            <br/>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group" *ngIf="!updateGroup">
-                            <label for="name">Group Name</label>
-                            <input disabled type="text" class="form-control" id="groupName" required [(ngModel)]="groupSelected.name" name="groupNameView">
-                        </div>
-                        <div class="form-group" *ngIf="updateGroup">
-                            <label for="name">Group Name</label>
-                            <input type="text" class="form-control" id="groupName" required [(ngModel)]="groupSelected.name" name="groupNameView" #groupNameView="ngModel">
-                            <div [hidden]="groupNameView.valid || groupNameView.pristine" class="alert alert-danger">
-                                Group name is required
-                            </div>
-                        </div>
+    <div class="panel panel-default" *ngIf="displayViewDialog && groupSelected">
+        <div class="panel-heading">
+            <center>
+                <h3 class="panel-title">Group Details</h3>
+            </center>
+        </div>
+        <br/>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group" *ngIf="!updateGroup">
+                        <label for="name">Group Name</label>
+                        <input disabled type="text" class="form-control" id="groupName" required [(ngModel)]="groupSelected.name" name="groupNameView">
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group" *ngIf="!updateGroup">
-                            <label for="comments">Comments</label>
-                            <input disabled type="text" class="form-control" id="comments" [(ngModel)]="groupSelected.comments" name="commentsView">
-                        </div>
-                        <div class="form-group" *ngIf="updateGroup">
-                            <label for="comments">Comments</label>
-                            <input type="text" class="form-control" id="comments" [(ngModel)]="groupSelected.comments" name="commentsView">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="comments">No of Contacts</label>
-                            <input disabled type="text" class="form-control" id="contactCount" [(ngModel)]="groupSelected.contactCount" name="contactCountView">
+                    <div class="form-group" *ngIf="updateGroup">
+                        <label for="name">Group Name</label>
+                        <input type="text" class="form-control" id="groupName" required [(ngModel)]="groupSelected.name" name="groupNameView" #groupNameView="ngModel">
+                        <div [hidden]="groupNameView.valid || groupNameView.pristine" class="alert alert-danger">
+                            Group name is required
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <center>
-                            <button *ngIf="!updateGroup" type="button" pButton icon="fa-pencil" (click)="updateGroupClick()" label="Edit"></button>
-                            <button *ngIf="!updateGroup" [disabled]="groupSelected.contactCount > 0" type="submit" pButton icon="fa-trash" (click)="deleteSelectedGroup()"
-                                label="Delete"></button>
-                            <button *ngIf="!updateGroup" type="button" pButton icon="fa-close" (click)="viewDialogCancelClick()" label="Cancel"></button>
-                            <button *ngIf="updateGroup" type="submit" pButton icon="fa-check" (click)="updateGroupSubmit()" label="Submit" [disabled]="!groupForm.form.valid"></button>
-                            <button *ngIf="updateGroup" type="button" pButton icon="fa-close" (click)="dialogUpdateCancelClick()" label="Cancel"></button>
-                        </center>
+                <div class="col-md-6">
+                    <div class="form-group" *ngIf="!updateGroup">
+                        <label for="comments">Comments</label>
+                        <input disabled type="text" class="form-control" id="comments" [(ngModel)]="groupSelected.comments" name="commentsView">
                     </div>
+                    <div class="form-group" *ngIf="updateGroup">
+                        <label for="comments">Comments</label>
+                        <input type="text" class="form-control" id="comments" [(ngModel)]="groupSelected.comments" name="commentsView">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="comments">No of Contacts</label>
+                        <input disabled type="text" class="form-control" id="contactCount" [(ngModel)]="groupSelected.contactCount" name="contactCountView">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <center>
+                        <button *ngIf="!updateGroup" type="button" pButton icon="fa-pencil" (click)="updateGroupClick()" label="Edit"></button>
+                        <button *ngIf="!updateGroup" [disabled]="groupSelected.contactCount > 0" type="submit" pButton icon="fa-trash" (click)="deleteSelectedGroup()"
+                            label="Delete"></button>
+                        <button *ngIf="!updateGroup" type="button" pButton icon="fa-close" (click)="viewDialogCancelClick()" label="Cancel"></button>
+                        <button *ngIf="updateGroup" type="submit" pButton icon="fa-check" (click)="updateGroupSubmit()" label="Submit" [disabled]="!groupForm.form.valid"></button>
+                        <button *ngIf="updateGroup" type="button" pButton icon="fa-close" (click)="dialogUpdateCancelClick()" label="Cancel"></button>
+                    </center>
                 </div>
             </div>
         </div>
+    </div>
 
-    </p-dialog>
+    <!-- </p-dialog> -->
 
-    <p-dialog [(visible)]="displayCreateDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="800" *ngIf="groupNew">
+    <!-- <p-dialog [(visible)]="displayCreateDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="800" *ngIf="groupNew"> -->
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <center>
-                    <h3 class="panel-title">Create Group</h3>
-                </center>
+    <div class="panel panel-default" *ngIf="displayCreateDialog && groupNew">
+        <div class="panel-heading">
+            <center>
+                <h3 class="panel-title">Create Group</h3>
+            </center>
+        </div>
+        <br/>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="name">Group Name</label>
+                        <input type="text" class="form-control" id="groupName" required [(ngModel)]="groupNew.name" name="groupNameCreate" #groupNameCreate="ngModel">
+                        <div [hidden]="groupNameCreate.valid || groupNameCreate.pristine" class="alert alert-danger">
+                            Group name is required
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label for="comments">Comments</label>
+                        <input type="text" class="form-control" id="comments" [(ngModel)]="groupNew.comments" name="commentsCreate">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <center>
+                        <button type="submit" pButton icon="fa-check" (click)="createGroupSubmit()" label="Create" [disabled]="!groupForm.form.valid"></button>
+                        <button type="button" pButton icon="fa-close" (click)="createDialogCancelClick()" label="Cancel"></button>
+                    </center>
+                </div>
             </div>
             <br/>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="name">Group Name</label>
-                            <input type="text" class="form-control" id="groupName" required [(ngModel)]="groupNew.name" name="groupNameCreate" #groupNameCreate="ngModel">
-                            <div [hidden]="groupNameCreate.valid || groupNameCreate.pristine" class="alert alert-danger">
-                                Group name is required
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="form-group">
-                            <label for="comments">Comments</label>
-                            <input type="text" class="form-control" id="comments" [(ngModel)]="groupNew.comments" name="commentsCreate">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <center>
-                            <button type="submit" pButton icon="fa-check" (click)="createGroupSubmit()" label="Create" [disabled]="!groupForm.form.valid"></button>
-                            <button type="button" pButton icon="fa-close" (click)="createDialogCancelClick()" label="Cancel"></button>
-                        </center>
-                    </div>
-                </div>
-                <br/>
-            </div>
         </div>
+    </div>
 
-    </p-dialog>
+    <!--  </p-dialog> -->
 
 </form>

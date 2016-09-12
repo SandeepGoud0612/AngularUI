@@ -2,7 +2,7 @@
 
 <form #contactForm="ngForm" *ngIf="active">
 
-    <div class="panel panel-default">
+    <div class="panel panel-default" *ngIf="!displayViewDialog && !displayCreateDialog">
         <div class="panel-heading">
             <center>
                 <h3 class="panel-title">Search Contacts</h3>
@@ -29,8 +29,9 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <p-multiSelect id="groups" defaultLabel="Choose Groups" name="groupsSearchCriteria" [options]="commonService.groupNamesForSearch"
-                       (onChange)="onSelectItemChange()" [(ngModel)]="commonService.contactSearchCriteria.groupIds" [style]="{'width':'100%'}" required #groupsSearchCriteria="ngModel"></p-multiSelect>
+                    <p-multiSelect id="groupsSearchCriteria" defaultLabel="Choose Groups - Required" name="groupsSearchCriteria" [options]="commonService.groupNamesForSearch"
+                        (onChange)="onSelectItemChange()" [(ngModel)]="commonService.contactSearchCriteria.groupIds" [style]="{'width':'100%'}"
+                        required #groupsSearchCriteria="ngModel"></p-multiSelect>
                     <div [hidden]="groupsSearchCriteria.valid || groupsSearchCriteria.pristine" class="alert alert-danger">
                         Choose atleast one Group
                     </div>
@@ -45,8 +46,8 @@
         </div>
     </div>
 
-    <p-dataTable [value]="commonService.contacts" [rows]="50" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[10,20,50]"
-        selectionMode="single" [responsive]="true" (onRowSelect)="onRowSelect($event)">
+    <p-dataTable *ngIf="!displayViewDialog && !displayCreateDialog" [value]="commonService.contacts" [rows]="50" [paginator]="true"
+        [pageLinks]="3" [rowsPerPageOptions]="[10,20,50]" selectionMode="single" [responsive]="true" (onRowSelect)="onRowSelect($event)">
         <header>Contacts</header>
         <p-column field="firstName" header="First Name" [sortable]="true" [filter]="true"></p-column>
         <p-column field="lastName" header="Last Name" [sortable]="true" [filter]="true"></p-column>
@@ -64,176 +65,176 @@
         </footer>
     </p-dataTable>
 
-    <p-dialog [(visible)]="displayViewDialog" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="contactSelected" [width]="1000">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <center>
-                    <h3 class="panel-title">Contact Details</h3>
-                </center>
-            </div>
-
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group" *ngIf="!updateContact">
-                            <label for="firstName">First Name</label>
-                            <input disabled type="text" class="form-control" id="firstName" required [(ngModel)]="contactSelected.firstName" name="firstNameView">
-                        </div>
-                        <div class="form-group" *ngIf="updateContact">
-                            <label for="firstName">First Name</label>
-                            <input type="text" class="form-control" id="firstName" required [(ngModel)]="contactSelected.firstName" name="firstNameView"
-                                #firstNameView="ngModel">
-                            <div [hidden]="firstNameView.valid || firstNameView.pristine" class="alert alert-danger">
-                                First name is required
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group" *ngIf="!updateContact">
-                            <label for="firstName">Last Name</label>
-                            <input disabled type="text" class="form-control" id="lastName" required [(ngModel)]="contactSelected.lastName" name="lastNameView">
-                        </div>
-                        <div class="form-group" *ngIf="updateContact">
-                            <label for="firstName">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" required [(ngModel)]="contactSelected.lastName" name="lastNameView"
-                                #lastNameView="ngModel">
-                            <div [hidden]="lastNameView.valid || lastNameView.pristine" class="alert alert-danger">
-                                Last name is required
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group" *ngIf="!updateContact">
-                            <label for="email">Email</label>
-                            <input disabled type="text" class="form-control" id="email" required [(ngModel)]="contactSelected.email" name="emailView">
-                        </div>
-                        <div class="form-group" *ngIf="updateContact">
-                            <label for="email">Email</label>
-                            <input type="text" class="form-control" id="email" required [(ngModel)]="contactSelected.email" name="emailView" #emailView="ngModel">
-                            <div [hidden]="emailView.valid || emailView.pristine" class="alert alert-danger">
-                                Email is required
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6" *ngIf="updateContact && moreGroupItems.length > 0">
-                        <div class="form-group">
-                            <label for="groups">Groups</label>
-                            <p-multiSelect id="groups" name="groups" [options]="moreGroupItems" [(ngModel)]="contactSelected.moreGroups" [style]="{'width':'100%'}"></p-multiSelect>
-                        </div>
-                    </div>
-                </div>
-
-                <p-dataTable [value]="contactSelected.contactGroups" *ngIf="!updateContact && contactSelected.contactGroups.length > 0">
-                    <p-column field="group.name" header="Group Name"></p-column>
-                    <p-column field="active" header="Active"></p-column>
-                    <p-column field="unSubscribed" header="UnSubscribed"></p-column>
-                </p-dataTable>
-                <br/>
-                <div class="row">
-                    <div class="col-md-12">
-                        <center>
-                            <button *ngIf="!updateContact" type="button" pButton icon="fa-pencil" (click)="updateContactClick()" label="Edit"></button>
-                            <button *ngIf="!updateContact" type="submit" pButton icon="fa-trash" (click)="deleteSelectedContact()" label="Delete"></button>
-                            <button *ngIf="!updateContact" type="button" pButton icon="fa-close" (click)="viewDialogCancelClick()" label="Cancel"></button>
-                        </center>
-                    </div>
-                </div>
-                <div class="panel panel-default" *ngIf="updateContact && contactSelected.contactGroups.length > 0">
-                    <div class="panel-body">
-                        <table class="table" *ngIf="updateContact && contactSelected.contactGroups.length > 0">
-                            <thead>
-                                <tr>
-                                    <th>Group Name</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Email</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let contactGroup of contactSelected.contactGroups">
-                                    <td>{{contactGroup.group.name}}</td>
-                                    <td><input id="active" name="active" type="checkbox" [(ngModel)]="contactGroup.active">Active</td>
-                                    <td><input id="unSubscribed" name="unSubscribed" type="checkbox" [(ngModel)]="contactGroup.unSubscribed">UnSubscribe</td>
-                                    <td><input id="delete" name="delete" type="checkbox" [(ngModel)]="contactGroup.delete">Delete</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <br/>
-                <div class="row">
-                    <div class="col-md-12">
-                        <center>
-                            <button *ngIf="updateContact" type="submit" pButton icon="fa-check" (click)="updateContactSubmit()" label="Submit" [disabled]="!contactForm.form.valid"></button>
-                            <button *ngIf="updateContact" type="button" pButton icon="fa-close" (click)="dialogUpdateCancelClick()" label="Cancel"></button>
-                        </center>
-                    </div>
-                </div>
-            </div>
+    <!-- <p-dialog [(visible)]="displayViewDialog" [responsive]="true" showEffect="fade" [modal]="true" *ngIf="contactSelected" [width]="1000"> -->
+    <div class="panel panel-default" *ngIf="displayViewDialog && contactSelected">
+        <div class="panel-heading">
+            <center>
+                <h3 class="panel-title">Contact Details</h3>
+            </center>
         </div>
-    </p-dialog>
 
-    <p-dialog [(visible)]="displayCreateDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="1000" *ngIf="contactNew">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <center>
-                    <h3 class="panel-title">Create Contact</h3>
-                </center>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="firstName">First Name</label>
-                            <input type="text" class="form-control" id="firstName" required [(ngModel)]="contactNew.firstName" name="firstNameCreate"
-                                #firstNameCreate="ngModel">
-                            <div [hidden]="firstNameCreate.valid || firstNameCreate.pristine" class="alert alert-danger">
-                                First name is required
-                            </div>
-                        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group" *ngIf="!updateContact">
+                        <label for="firstName">First Name</label>
+                        <input disabled type="text" class="form-control" id="firstName" required [(ngModel)]="contactSelected.firstName" name="firstNameView">
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="lastName">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" required [(ngModel)]="contactNew.lastName" name="lastNameCreate" #lastNameCreate="ngModel">
-                            <div [hidden]="lastNameCreate.valid || lastNameCreate.pristine" class="alert alert-danger">
-                                Last name is required
-                            </div>
+                    <div class="form-group" *ngIf="updateContact">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" id="firstName" required [(ngModel)]="contactSelected.firstName" name="firstNameView"
+                            #firstNameView="ngModel">
+                        <div [hidden]="firstNameView.valid || firstNameView.pristine" class="alert alert-danger">
+                            First name is required
                         </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="email" class="control-label">Email</label>
-                            <input type="email" class="form-control" id="email" required [(ngModel)]="contactNew.email" name="emailCreate" #emailCreate="ngModel">
-                            <div [hidden]="emailCreate.valid || emailCreate.pristine" class="alert alert-danger">
-                                Email is invalid
-                            </div>
-                        </div>
+                <div class="col-md-6">
+                    <div class="form-group" *ngIf="!updateContact">
+                        <label for="firstName">Last Name</label>
+                        <input disabled type="text" class="form-control" id="lastName" required [(ngModel)]="contactSelected.lastName" name="lastNameView">
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="groups">Groups</label>
-                            <p-multiSelect id="groups" name="groups" [options]="commonService.groupItems" [(ngModel)]="contactNew.groups" [style]="{'width':'100%'}"></p-multiSelect>
+                    <div class="form-group" *ngIf="updateContact">
+                        <label for="firstName">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" required [(ngModel)]="contactSelected.lastName" name="lastNameView"
+                            #lastNameView="ngModel">
+                        <div [hidden]="lastNameView.valid || lastNameView.pristine" class="alert alert-danger">
+                            Last name is required
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group" *ngIf="!updateContact">
+                        <label for="email">Email</label>
+                        <input disabled type="text" class="form-control" id="email" required [(ngModel)]="contactSelected.email" name="emailView">
+                    </div>
+                    <div class="form-group" *ngIf="updateContact">
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" id="email" required [(ngModel)]="contactSelected.email" name="emailView" #emailView="ngModel">
+                        <div [hidden]="emailView.valid || emailView.pristine" class="alert alert-danger">
+                            Email is required
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" *ngIf="updateContact && moreGroupItems.length > 0">
+                    <div class="form-group">
+                        <label for="groups">Groups</label>
+                        <p-multiSelect id="groups" name="groups" [options]="moreGroupItems" [(ngModel)]="contactSelected.moreGroups" [style]="{'width':'100%'}"></p-multiSelect>
+                    </div>
+                </div>
+            </div>
+
+            <p-dataTable [value]="contactSelected.contactGroups" *ngIf="!updateContact && contactSelected.contactGroups.length > 0">
+                <p-column field="group.name" header="Group Name"></p-column>
+                <p-column field="active" header="Active"></p-column>
+                <p-column field="unSubscribed" header="UnSubscribed"></p-column>
+            </p-dataTable>
+            <br/>
             <div class="row">
                 <div class="col-md-12">
                     <center>
-                        <button type="submit" pButton icon="fa-check" (click)="createContactSubmit()" label="Create" [disabled]="!contactForm.form.valid"></button>
-                        <button type="button" pButton icon="fa-close" (click)="createDialogCancelClick()" label="Cancel"></button>
+                        <button *ngIf="!updateContact" type="button" pButton icon="fa-pencil" (click)="updateContactClick()" label="Edit"></button>
+                        <button *ngIf="!updateContact" type="submit" pButton icon="fa-trash" (click)="deleteSelectedContact()" label="Delete"></button>
+                        <button *ngIf="!updateContact" type="button" pButton icon="fa-close" (click)="viewDialogCancelClick()" label="Cancel"></button>
                     </center>
                 </div>
             </div>
+            <div class="panel panel-default" *ngIf="updateContact && contactSelected.contactGroups.length > 0">
+                <div class="panel-body">
+                    <table class="table" *ngIf="updateContact && contactSelected.contactGroups.length > 0">
+                        <thead>
+                            <tr>
+                                <th>Group Name</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let contactGroup of contactSelected.contactGroups">
+                                <td>{{contactGroup.group.name}}</td>
+                                <td><input id="active" name="active" type="checkbox" [(ngModel)]="contactGroup.active">Active</td>
+                                <td><input id="unSubscribed" name="unSubscribed" type="checkbox" [(ngModel)]="contactGroup.unSubscribed">UnSubscribe</td>
+                                <td><input id="delete" name="delete" type="checkbox" [(ngModel)]="contactGroup.delete">Delete</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             <br/>
+            <div class="row">
+                <div class="col-md-12">
+                    <center>
+                        <button *ngIf="updateContact" type="submit" pButton icon="fa-check" (click)="updateContactSubmit()" label="Submit" [disabled]="!contactForm.form.valid"></button>
+                        <button *ngIf="updateContact" type="button" pButton icon="fa-close" (click)="dialogUpdateCancelClick()" label="Cancel"></button>
+                    </center>
+                </div>
+            </div>
         </div>
-    </p-dialog>
+    </div>
+    <!-- </p-dialog> -->
+
+    <!-- <p-dialog [(visible)]="displayCreateDialog" [responsive]="true" showEffect="fade" [modal]="true" [width]="1000" *ngIf="contactNew"> -->
+    <div class="panel panel-default" *ngIf="displayCreateDialog && contactNew">
+        <div class="panel-heading">
+            <center>
+                <h3 class="panel-title">Create Contact</h3>
+            </center>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" id="firstName" required [(ngModel)]="contactNew.firstName" name="firstNameCreate"
+                            #firstNameCreate="ngModel">
+                        <div [hidden]="firstNameCreate.valid || firstNameCreate.pristine" class="alert alert-danger">
+                            First name is required
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" required [(ngModel)]="contactNew.lastName" name="lastNameCreate" #lastNameCreate="ngModel">
+                        <div [hidden]="lastNameCreate.valid || lastNameCreate.pristine" class="alert alert-danger">
+                            Last name is required
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="email" class="control-label">Email</label>
+                        <input type="email" class="form-control" id="email" required [(ngModel)]="contactNew.email" name="emailCreate" #emailCreate="ngModel">
+                        <div [hidden]="emailCreate.valid || emailCreate.pristine" class="alert alert-danger">
+                            Email is invalid
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="groups">Groups</label>
+                        <p-multiSelect id="groups" name="groups" [options]="commonService.groupItems" [(ngModel)]="contactNew.groups" [style]="{'width':'100%'}"></p-multiSelect>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <center>
+                    <button type="submit" pButton icon="fa-check" (click)="createContactSubmit()" label="Create" [disabled]="!contactForm.form.valid"></button>
+                    <button type="button" pButton icon="fa-close" (click)="createDialogCancelClick()" label="Cancel"></button>
+                </center>
+            </div>
+        </div>
+        <br/>
+    </div>
+    <!--  </p-dialog> -->
 
 </form>
