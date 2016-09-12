@@ -21,17 +21,23 @@ export class ContactService {
             .catch(this.handleError);
     }
 
+    getContactById(id: number): Observable<Contact> {
+        return this.http.get(this.contactUrl + "/" + id)
+            .map((res: Response) => res.json())
+            .catch(this.handleError);
+    }
+
     getAllContactsByCriteria(contactSearchCriteria: ContactSearchCriteria): Observable<Contact[]> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         return this.http.post(this.contactUrl + "/searchCriteria", JSON.stringify(contactSearchCriteria), { headers: headers })
-            .map(res => res.json())
+            .map((res: Response) => res.json())
             .catch(this.handleError);
     }
 
     getAllContacts(): Observable<Contact[]> {
         return this.http.get(this.contactUrl)
-            .map(res => res.json())
+            .map((res: Response) => res.json())
             .catch(this.handleError);
     }
 

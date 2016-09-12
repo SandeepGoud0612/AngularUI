@@ -37,7 +37,7 @@ export class ContactComponent implements OnInit {
 
     onSelectItemChange() {
         this.active = false;
-        setTimeout(() => this.active = true, 0);        
+        setTimeout(() => this.active = true, 0);
         if (this.commonService.contactSearchCriteria.groupIds !== undefined && this.commonService.contactSearchCriteria.groupIds.length <= 0) {
             this.commonService.contactSearchCriteria.groupIds = undefined;
         }
@@ -45,8 +45,12 @@ export class ContactComponent implements OnInit {
 
     onRowSelect(event: any) {
         this.contactSelected = event.data;
-        this.displayViewDialog = true;
-        this.updateContact = false;
+        this.contactService.getContactById(this.contactSelected.id)
+            .subscribe(contactFromDB => {
+                this.contactSelected = contactFromDB;
+                this.displayViewDialog = true;
+                this.updateContact = false;
+            });
     }
 
     viewDialogCancelClick() {
