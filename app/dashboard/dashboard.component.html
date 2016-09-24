@@ -56,6 +56,9 @@
                     <li>
                         <a (click)="sideMenuClick('5')"><i class="fa fa-bar-chart fa-fw"></i> Reports</a>
                     </li>
+                     <li>
+                        <a (click)="sideMenuClick('6')"><i class="fa fa-toggle-off fa-fw"></i> Servers</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -81,6 +84,10 @@
         <div *ngIf="sideMenuSeleted == 'reports'">
             <br/>
             <h1>Page Under Construction!</h1>
+        </div>
+        <div *ngIf="sideMenuSeleted == 'servers'">
+            <br/>
+            <my-servers></my-servers>
         </div>
 
     </div>

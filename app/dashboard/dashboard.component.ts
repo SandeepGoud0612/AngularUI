@@ -4,10 +4,11 @@ import { GroupComponent } from "../group/group.component";
 import { DashboardContentComponent } from "../dashboard/dashboard_content.component";
 import { EmailComponent } from "../email/email.component";
 import { TabView, TabPanel, Panel } from "primeng/primeng";
+import { EmailServerComponent } from "../emailserver/emailserver.component";
 
 @Component({
     templateUrl: "./app/dashboard/dashboard.component.html",
-    directives: [TabView, TabPanel, Panel, ContactComponent, GroupComponent, DashboardContentComponent, EmailComponent]
+    directives: [TabView, TabPanel, Panel, ContactComponent, GroupComponent, DashboardContentComponent, EmailComponent, EmailServerComponent]
 })
 export class DashboardComponent {
     title: string = "Mass Mailing Application";
@@ -25,6 +26,8 @@ export class DashboardComponent {
             this.sideMenuSeleted = "groups";
         } else if (index == 5) {
             this.sideMenuSeleted = "reports";
+        }else if (index == 6) {
+            this.sideMenuSeleted = "servers";
         }
     }
 

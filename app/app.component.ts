@@ -6,6 +6,7 @@ import { GroupService } from "./group/group.service";
 import { ContactGroupService } from "./contactgroup/contactgroup.service";
 import { CommonService } from "../app/shared/common.service";
 import { EmailService } from "../app/email/email.service";
+import { EmailServerService } from "./emailserver/emailserver.service";
 import './rxjs-operators';
 
 @Component({
@@ -14,7 +15,7 @@ import './rxjs-operators';
   templateUrl: "app.component.html",
   styleUrls: ["app.component.css"],
   directives: [ROUTER_DIRECTIVES],
-  providers: [HTTP_PROVIDERS, ContactService, GroupService, ContactGroupService, CommonService, EmailService]
+  providers: [HTTP_PROVIDERS, ContactService, GroupService, ContactGroupService, CommonService, EmailService, EmailServerService]
 })
 export class AppComponent {
   title: string = "Mass Mailing Application";

@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ContactService } from "./contact.service";
 import { Contact } from "./contact";
-import { DataTable, Column, Button, Header, Footer, Dialog, SelectItem, MultiSelect, Panel, Growl} from 'primeng/primeng';
+import { DataTable, Column, Button, Header, Footer, Dialog, SelectItem, MultiSelect, Panel, Growl} from "primeng/primeng";
 import { Message } from "../message";
 import { ContactGroupService } from "../contactgroup/contactgroup.service";
 import { ContactGroup } from "../contactgroup/contactgroup";
