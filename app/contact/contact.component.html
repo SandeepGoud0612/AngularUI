@@ -159,7 +159,7 @@
                                 <td>{{contactGroup.group.name}}</td>
                                 <td><input id="active" name="active" type="checkbox" [(ngModel)]="contactGroup.active">Active</td>
                                 <td><input id="unSubscribed" name="unSubscribed" type="checkbox" [(ngModel)]="contactGroup.unSubscribed">UnSubscribe</td>
-                                <td><input id="delete" name="delete" type="checkbox" [(ngModel)]="contactGroup.delete">Delete</td>
+                                <td><input id="delete" name="delete" type="checkbox" disabled="true" [(ngModel)]="contactGroup.delete">Delete</td>
                             </tr>
                         </tbody>
                     </table>
