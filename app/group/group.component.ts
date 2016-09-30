@@ -24,9 +24,13 @@ export class GroupComponent {
     constructor(private groupService: GroupService, private commonService: CommonService) { }
 
     onRowSelect(event: any) {
-        this.displayViewDialog = true;
         this.groupSelected = event.data;
-        this.updateGroup = false;
+        this.groupService.getGroupById(this.groupSelected.id)
+            .subscribe(groupFromDB => {
+                this.groupSelected = groupFromDB;
+                this.displayViewDialog = true;
+                this.updateGroup = false;
+            });
     }
 
     viewDialogCancelClick() {

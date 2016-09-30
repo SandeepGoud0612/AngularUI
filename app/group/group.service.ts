@@ -19,6 +19,12 @@ export class GroupService {
             .catch(this.handleError);
     }
 
+     getGroupById(id: number): Observable<Group> {
+        return this.http.get(this.groupUrl + "/" + id)
+            .map((res: Response) => res.json())
+            .catch(this.handleError);
+    }
+
     getAllGroupsBySearchCriteria(groupSearchCriteria: GroupSearchCriteria): Observable<Group[]> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');

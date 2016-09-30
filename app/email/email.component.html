@@ -47,12 +47,14 @@
             <div class="row">
                 <div class="col-md-12">
                     <center>
-                        <button type="submit" pButton icon="fa-check" (click)="sendEmail()" label="Send" [disabled]="!emailForm.form.valid"></button>
-                        <button type="button" pButton icon="fa-close" (click)="cancelClick()" label="Cancel"></button>
+                        <button type="submit" pButton icon="fa-check" (click)="showDialog()" label="Send" [disabled]="!emailForm.form.valid"></button>
                     </center>
                 </div>
             </div>
         </div>
     </div>
+
+    <p-dialog header="Sending Mail..." [(visible)]="emailSending" modal="modal" (onAfterShow)="sendEmail()" minWidth="200px">
+    </p-dialog>
 
 </form>
