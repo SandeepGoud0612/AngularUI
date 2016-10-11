@@ -6,7 +6,7 @@ import { EmailServer } from "./emailserver";
 @Injectable()
 export class EmailServerService {
 
-    private emailServerURL = "http://localhost:8080/emailserver";
+    private emailServerURL = "http://localhost:8080/emailServer";
 
     constructor(private http: Http){ }
 

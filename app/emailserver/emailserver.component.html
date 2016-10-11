@@ -1,14 +1,128 @@
 <p-growl [value]="msgs" sticky="sticky"></p-growl>
 
-<form #serverForm="ngForm">
+<form #contactForm="ngForm" *ngIf="active">
 
-    <p-dataTable [value]="emailServers" [rows]="50" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[10,20,50]" selectionMode="single"
-        [responsive]="true">
-        <header>Contacts</header>
+    <p-dataTable [value]="emailServers" *ngIf="!createEmailServer" [rows]="50" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[10,20,50]"
+        selectionMode="single" [responsive]="true">
+        <header>Email Servers</header>
         <p-column field="name" header="Name" [sortable]="true" [filter]="true"></p-column>
         <p-column field="protocol" header="Protocol" [sortable]="true" [filter]="true"></p-column>
         <p-column field="host" header="Host" [sortable]="true" [filter]="true"></p-column>
-        <p-column field="port" header="Port" [sortable]="true" [filter]="true" [colspan]="2"></p-column>       
+        <p-column field="port" header="Port" [sortable]="true" [filter]="true" [colspan]="2"></p-column>
+        <footer>
+            <div class="row">
+                <div class="col-md-12">
+                    <center>
+                        <button type="button" icon="fa fa-plus" pButton label="Create" (click)="createEmailServerClick()"></button>
+                        <button type="button" pButton icon="fa fa-download" label="Import"></button>
+                    </center>
+                </div>
+            </div>
+        </footer>
     </p-dataTable>
+
+    <div class="panel panel-default" *ngIf="createEmailServer">
+        <div class="panel-heading">
+            <center>
+                <h3 class="panel-title">Create Email Server</h3>
+            </center>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="emailServerName">Email Server Name*</label>
+                        <input type="text" class="form-control" id="emailServerName" required [(ngModel)]="emailServerNew.name" name="emailServerNameCreate"
+                            #emailServerNameCreate="ngModel" placeholder="Required">
+                        <div [hidden]="emailServerNameCreate.valid || emailServerNameCreate.pristine" class="alert alert-danger">
+                            Email server name is required
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="protocol">Protocol*</label>
+                        <input type="text" class="form-control" id="protocol" required [(ngModel)]="emailServerNew.protocol" name="protocolCreate"
+                            #protocolCreate="ngModel" placeholder="Required">
+                        <div [hidden]="protocolCreate.valid || protocolCreate.pristine" class="alert alert-danger">
+                            Protocol is required
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="host">Host*</label>
+                        <input type="text" class="form-control" id="host" required [(ngModel)]="emailServerNew.host" name="hostCreate" #hostCreate="ngModel"
+                            placeholder="Required">
+                        <div [hidden]="hostCreate.valid || hostCreate.pristine" class="alert alert-danger">
+                            Host is required
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="port">Port*</label>
+                        <input type="text" class="form-control" id="port" required [(ngModel)]="emailServerNew.port" name="hostCreate" #portCreate="ngModel"
+                            placeholder="Required">
+                        <div [hidden]="portCreate.valid || portCreate.pristine" class="alert alert-danger">
+                            Port is required
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="mailsPerSession">Mails Per Session*</label>
+                        <input type="text" class="form-control" id="mailsPerSession" required [(ngModel)]="emailServerNew.mailsPerSession" name="mailsPerSessionCreate"
+                            #mailsPerSessionCreate="ngModel" placeholder="Required">
+                        <div [hidden]="mailsPerSessionCreate.valid || mailsPerSessionCreate.pristine" class="alert alert-danger">
+                            Mails Per Session is required
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="fromAddress">From Address*</label>
+                        <input type="text" class="form-control" id="fromAddress" required [(ngModel)]="emailServerNew.fromAddress" name="fromAddressCreate"
+                            #fromAddressCreate="ngModel" placeholder="Required">
+                        <div [hidden]="fromAddressCreate.valid || fromAddressCreate.pristine" class="alert alert-danger">
+                            From Address is required
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="emailUsername">Email User name*</label>
+                        <input type="text" class="form-control" id="emailUsername" required [(ngModel)]="emailServerNew.emailUsername" name="emailUsernameCreate"
+                            #emailUsernameCreate="ngModel" placeholder="Required">
+                        <div [hidden]="emailUsernameCreate.valid || emailUsernameCreate.pristine" class="alert alert-danger">
+                            Email Username is required
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="emailPassword">Email Password*</label>
+                        <input type="text" class="form-control" id="emailPassword" required [(ngModel)]="emailServerNew.emailPassword" name="emailPasswordCreate"
+                            #emailPasswordCreate="ngModel" placeholder="Required">
+                        <div [hidden]="emailPasswordCreate.valid || emailPasswordCreate.pristine" class="alert alert-danger">
+                            Mails Password is required
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <center>
+                    <button type="button" pButton icon="fa-close" (click)="createEmailServerCancleClick()" label="Cancel"></button>
+                </center>
+            </div>
+        </div>
+        <br/>
+    </div>
 
 </form>

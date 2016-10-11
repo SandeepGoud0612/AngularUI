@@ -63,6 +63,12 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="contactCount">Contact Count</label>
+                        <input disabled type="text" class="form-control" id="contactCount" required [(ngModel)]="groupSelected.contactCount" name="contactCountView">
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <div class="form-group" *ngIf="!updateGroup">
                         <label for="comments">Comments</label>
