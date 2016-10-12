@@ -14,13 +14,22 @@ export class EmailServerComponent implements OnInit {
     msgs: Message[] = [];
     emailServers: EmailServer[] = [];
     emailServerNew: EmailServer;
+    emailServerUpdate: EmailServer;
     createEmailServer: boolean;
     active: boolean = true;
+    viewEmailServer: boolean;
+    updateEmailServer: boolean;
+    emailServerSelected: EmailServer;
 
-    constructor(private emailServerService: EmailServerService){}
+    constructor(private emailServerService: EmailServerService) { }
 
     ngOnInit() {
         this.getAllEmailServers();
+    }
+
+    onRowSelect(event: any) {
+        this.emailServerSelected = event.data;
+        this.viewEmailServer = true;
     }
 
     getAllEmailServers() {
@@ -32,15 +41,49 @@ export class EmailServerComponent implements OnInit {
             );
     }
 
-    createEmailServerClick(){
+    createEmailServerClick() {
         this.emailServerNew = new EmailServer();
         this.createEmailServer = true;
         this.active = false;
         setTimeout(() => this.active = true, 0);
     }
 
-    createEmailServerCancleClick(){
-         this.createEmailServer = false;
+    createEmailServerCancleClick() {
+        this.createEmailServer = false;
+        this.updateEmailServer = false;
+    }
+
+    viewEmailServerCancleClick() {
+        this.viewEmailServer = false;
+        this.updateEmailServer = false;
+    }
+
+    updateEmailServerClick() {
+        this.updateEmailServer = true;
+        this.viewEmailServer = true;
+        this.emailServerUpdate = this.emailServerSelected;
+        this.emailServerSelected = this.cloneContact(this.emailServerUpdate);
+    }
+
+    cloneContact(server: EmailServer): EmailServer {
+        let emailServer = new EmailServer();
+        for (let prop in server) {
+            emailServer[prop] = server[prop];
+        }
+        return emailServer;
+    }
+
+    deleteEmailServerCancleClick() {
+        this.msgs = [];
+        this.emailServerService.deleteEmailServer(this.emailServerSelected.id)
+            .subscribe(() => {
+                this.msgs.push({ severity: "info", summary: "Email Server deleted successfully.", detail: "" });
+                this.viewEmailServer = false;
+                this.getAllEmailServers();
+            },
+            error => {
+                this.msgs.push({ severity: "error", summary: "Email Server deletion failed.", detail: error });
+            });
     }
 
 }

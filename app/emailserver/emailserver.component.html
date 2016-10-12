@@ -2,8 +2,8 @@
 
 <form #contactForm="ngForm" *ngIf="active">
 
-    <p-dataTable [value]="emailServers" *ngIf="!createEmailServer" [rows]="50" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[10,20,50]"
-        selectionMode="single" [responsive]="true">
+    <p-dataTable [value]="emailServers" *ngIf="!createEmailServer && !viewEmailServer" [rows]="50" [paginator]="true" [pageLinks]="3"
+        [rowsPerPageOptions]="[10,20,50]" selectionMode="single" [responsive]="true" (onRowSelect)="onRowSelect($event)">
         <header>Email Servers</header>
         <p-column field="name" header="Name" [sortable]="true" [filter]="true"></p-column>
         <p-column field="protocol" header="Protocol" [sortable]="true" [filter]="true"></p-column>
@@ -20,6 +20,144 @@
             </div>
         </footer>
     </p-dataTable>
+
+    <div class="panel panel-default" *ngIf="viewEmailServer && emailServerSelected">
+        <div class="panel-heading">
+            <center>
+                <h3 class="panel-title">Email Server</h3>
+            </center>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group" *ngIf="!updateEmailServer">
+                        <label for="emailServerName">Email Server Name*</label>
+                        <input disabled type="text" class="form-control" id="emailServerName" [(ngModel)]="emailServerSelected.name" name="emailServerNameView">
+                    </div>
+                    <div class="form-group" *ngIf="updateEmailServer">
+                        <label for="emailServerName">Email Server Name*</label>
+                        <input type="text" class="form-control" id="emailServerName" required [(ngModel)]="emailServerSelected.name" name="emailServerNameView"
+                            #emailServerNameView="ngModel" placeholder="Required">
+                        <div [hidden]="emailServerNameView.valid || emailServerNameView.pristine" class="alert alert-danger">
+                            Email server name is required
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" *ngIf="!updateEmailServer">
+                        <label for="protocol">Protocol*</label>
+                        <input disabled type="text" class="form-control" id="protocol" [(ngModel)]="emailServerSelected.protocol" name="protocolView">
+                    </div>
+                    <div class="form-group" *ngIf="updateEmailServer">
+                        <label for="protocol">Protocol*</label>
+                        <input type="text" class="form-control" id="protocol" required [(ngModel)]="emailServerSelected.protocol" name="protocolView"
+                            #protocolView="ngModel" placeholder="Required">
+                        <div [hidden]="protocolView.valid || protocolView.pristine" class="alert alert-danger">
+                            Protocol is required
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" *ngIf="!updateEmailServer">
+                        <label for="host">Host*</label>
+                        <input disabled type="text" class="form-control" id="host" [(ngModel)]="emailServerSelected.host" name="hostView">
+                    </div>
+                    <div class="form-group" *ngIf="updateEmailServer">
+                        <label for="host">Host*</label>
+                        <input type="text" class="form-control" id="host" required [(ngModel)]="emailServerSelected.host" name="hostView" #hostView="ngModel"
+                            placeholder="Required">
+                        <div [hidden]="hostView.valid || hostView.pristine" class="alert alert-danger">
+                            Host is required
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group" *ngIf="!updateEmailServer">
+                        <label for="port">Port*</label>
+                        <input disabled type="text" class="form-control" id="port" [(ngModel)]="emailServerSelected.port" name="portView">
+                    </div>
+                    <div class="form-group" *ngIf="updateEmailServer">
+                        <label for="port">Port*</label>
+                        <input type="text" class="form-control" id="port" required [(ngModel)]="emailServerSelected.port" name="portView" #portView="ngModel"
+                            placeholder="Required">
+                        <div [hidden]="portView.valid || portView.pristine" class="alert alert-danger">
+                            Port is required
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" *ngIf="!updateEmailServer">
+                        <label for="mailsPerSession">Mails Per Session*</label>
+                        <input disabled type="text" class="form-control" id="mailsPerSession" [(ngModel)]="emailServerSelected.mailsPerSession" name="mailsPerSessionView">
+                    </div>
+                    <div class="form-group" *ngIf="updateEmailServer">
+                        <label for="mailsPerSession">Mails Per Session*</label>
+                        <input type="text" class="form-control" id="mailsPerSession" required [(ngModel)]="emailServerSelected.mailsPerSession" name="mailsPerSessionView"
+                            #mailsPerSessionView="ngModel" placeholder="Required">
+                        <div [hidden]="mailsPerSessionView.valid || mailsPerSessionView.pristine" class="alert alert-danger">
+                            Mails Per Session is required
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" *ngIf="!updateEmailServer">
+                        <label for="fromAddress">From Address*</label>
+                        <input disabled type="text" class="form-control" id="fromAddress" [(ngModel)]="emailServerSelected.fromAddress" name="fromAddressView">
+                    </div>
+                    <div class="form-group" *ngIf="updateEmailServer">
+                        <label for="fromAddress">From Address*</label>
+                        <input type="text" class="form-control" id="fromAddress" required [(ngModel)]="emailServerSelected.fromAddress" name="fromAddressView"
+                            #fromAddressView="ngModel" placeholder="Required">
+                        <div [hidden]="fromAddressView.valid || fromAddressView.pristine" class="alert alert-danger">
+                            From Address is required
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group" *ngIf="!updateEmailServer">
+                        <label for="emailUsername">Email User name*</label>
+                        <input disabled type="text" class="form-control" id="emailUsername" [(ngModel)]="emailServerSelected.emailUsername" name="emailUsernameView">
+                    </div>
+                    <div class="form-group" *ngIf="updateEmailServer">
+                        <label for="emailUsername">Email User name*</label>
+                        <input type="text" class="form-control" id="emailUsername" required [(ngModel)]="emailServerSelected.emailUsername" name="emailUsernameView"
+                            #emailUsernameView="ngModel" placeholder="Required">
+                        <div [hidden]="emailUsernameView.valid || emailUsernameView.pristine" class="alert alert-danger">
+                            Email Username is required
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" *ngIf="!updateEmailServer">
+                        <label for="emailPassword">Email Password*</label>
+                        <input disabled type="text" class="form-control" id="emailPassword" [(ngModel)]="emailServerSelected.emailPassword" name="emailPasswordView">
+                    </div>
+                    <div class="form-group" *ngIf="updateEmailServer">
+                        <label for="emailPassword">Email Password*</label>
+                        <input type="text" class="form-control" id="emailPassword" required [(ngModel)]="emailServerSelected.emailPassword" name="emailPasswordView"
+                            #emailPasswordView="ngModel" placeholder="Required">
+                        <div [hidden]="emailPasswordView.valid || emailPasswordView.pristine" class="alert alert-danger">
+                            Mails Password is required
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <center>
+                    <button type="button" pButton icon="fa-pencil" (click)="updateEmailServerClick()" label="Edit"></button>
+                    <button type="submit" pButton icon="fa-trash" (click)="deleteEmailServerCancleClick()" label="Delete"></button>
+                    <button type="button" pButton icon="fa-close" (click)="viewEmailServerCancleClick()" label="Cancel"></button>
+                </center>
+            </div>
+        </div>
+        <br/>
+    </div>
 
     <div class="panel panel-default" *ngIf="createEmailServer">
         <div class="panel-heading">

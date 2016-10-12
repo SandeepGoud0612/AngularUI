@@ -1,4 +1,5 @@
 export class EmailServer {
+    id: number;
     name: string;
     protocol: string;
     host: string;

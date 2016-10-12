@@ -8,15 +8,21 @@ export class EmailServerService {
 
     private emailServerURL = "http://localhost:8080/emailServer";
 
-    constructor(private http: Http){ }
+    constructor(private http: Http) { }
 
-    getAllEmailServers(): Observable<EmailServer[]>{
+    getAllEmailServers(): Observable<EmailServer[]> {
         return this.http.get(this.emailServerURL)
             .map((res: Response) => res.json())
             .catch(this.handleError);
     }
 
-     private extractData(res: Response) {
+    deleteEmailServer(objectId: number): Observable<void> {
+        return this.http.delete(this.emailServerURL + "/" + objectId)
+            .map((res: Response) => { return; })
+            .catch(this.handleError);
+    }
+
+    private extractData(res: Response) {
         let body = res.json();
         return body || {};
     }
