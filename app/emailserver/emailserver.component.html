@@ -150,9 +150,12 @@
         <div class="row">
             <div class="col-md-12">
                 <center>
-                    <button type="button" pButton icon="fa-pencil" (click)="updateEmailServerClick()" label="Edit"></button>
-                    <button type="submit" pButton icon="fa-trash" (click)="deleteEmailServerCancleClick()" label="Delete"></button>
-                    <button type="button" pButton icon="fa-close" (click)="viewEmailServerCancleClick()" label="Cancel"></button>
+                    <button *ngIf="!updateEmailServer" type="button" pButton icon="fa-pencil" (click)="updateEmailServerClick()" label="Edit"></button>
+                    <button *ngIf="!updateEmailServer" type="submit" pButton icon="fa-trash" (click)="deleteEmailServerCancleClick()" label="Delete"></button>
+                    <button *ngIf="!updateEmailServer" type="button" pButton icon="fa-close" (click)="viewEmailServerCancleClick()" label="Cancel"></button>
+                    <button *ngIf="updateEmailServer" type="submit" pButton icon="fa-check" (click)="updateEmailServerSubmit()" label="Submit"
+                        [disabled]="!contactForm.form.valid"></button>
+                    <button *ngIf="updateEmailServer" type="button" pButton icon="fa-close" (click)="updateEmailServerCancel()" label="Cancel"></button>
                 </center>
             </div>
         </div>
@@ -248,6 +251,57 @@
                             #emailPasswordCreate="ngModel" placeholder="Required">
                         <div [hidden]="emailPasswordCreate.valid || emailPasswordCreate.pristine" class="alert alert-danger">
                             Mails Password is required
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <center>
+                            <h3 class="panel-title">Email Server Properties</h3>
+                        </center>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="propertyName">Property Name*</label>
+                                    <input type="text" class="form-control" id="propertyName" required [(ngModel)]="emailServerPropertyNew.name" name="propertyNameCreate"
+                                        #propertyNameCreate="ngModel" placeholder="Required">
+                                    <div [hidden]="propertyNameCreate.valid || propertyNameCreate.pristine" class="alert alert-danger">
+                                        Property Name is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="propertyValue">Property Value*</label>
+                                    <input type="text" class="form-control" id="propertyValue" required [(ngModel)]="emailServerPropertyNew.value" name="propertyValueCreate"
+                                        #propertyValueCreate="ngModel" placeholder="Required">
+                                    <div [hidden]="propertyValueCreate.valid || propertyValueCreate.pristine" class="alert alert-danger">
+                                        Property Value is required
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="propertyType">Property Type*</label>
+                                    <p-dropdown [style]="{'width':'300px'}" id="propertyType" placeholder="Select" required [options]="emailServerPropertyTypes"
+                                        [(ngModel)]="emailServerPropertyNew.type" #propertyTypeCreate="ngModel" name="propertyTypeCreate"></p-dropdown>
+                                    <div [hidden]="propertyTypeCreate.valid || propertyTypeCreate.pristine" class="alert alert-danger">
+                                        Property Type is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <center>
+                                    <button type="button" pButton icon="fa-pencil" (click)="updateEmailServerClick()" label="Add"></button>
+                                    <button type="button" pButton icon="fa-trash" (click)="deleteEmailServerCancleClick()" label="Cancel"></button>                                    
+                                </center>
+                            </div>
                         </div>
                     </div>
                 </div>

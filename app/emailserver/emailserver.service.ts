@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
+import { Http, Response, Headers } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import { EmailServer } from "./emailserver";
 
@@ -19,6 +19,14 @@ export class EmailServerService {
     deleteEmailServer(objectId: number): Observable<void> {
         return this.http.delete(this.emailServerURL + "/" + objectId)
             .map((res: Response) => { return; })
+            .catch(this.handleError);
+    }
+
+    updateEmailServerSubmit(emailServer: EmailServer) {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        return this.http.put(this.emailServerURL + "/" + emailServer.id, JSON.stringify(emailServer), { headers: headers })
+            .map((res: Response) => res.json())
             .catch(this.handleError);
     }
 
