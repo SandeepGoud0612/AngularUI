@@ -1,5 +1,8 @@
+import { EmailServerProperties } from "./emailserver.properties";
+
 export class EmailServer {
     id: number;
+    version: number;
     name: string;
     protocol: string;
     host: string;
@@ -7,5 +10,5 @@ export class EmailServer {
     mailsPerSession: number;
     fromAddress: string;
     emailUserName: string;
-    emailPassword: string;    
+    emailPassword: string;
 }

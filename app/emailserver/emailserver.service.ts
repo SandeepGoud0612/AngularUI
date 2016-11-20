@@ -16,6 +16,14 @@ export class EmailServerService {
             .catch(this.handleError);
     }
 
+    createEmailServer(emailServer: EmailServer): Observable<EmailServer> {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        return this.http.post(this.emailServerURL, JSON.stringify(emailServer), { headers: headers })
+            .map((res: Response) => { return; })
+            .catch(this.handleError);
+    }
+
     deleteEmailServer(objectId: number): Observable<void> {
         return this.http.delete(this.emailServerURL + "/" + objectId)
             .map((res: Response) => { return; })

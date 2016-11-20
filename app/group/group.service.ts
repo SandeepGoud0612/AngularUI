@@ -28,6 +28,7 @@ export class GroupService {
     getAllGroupsBySearchCriteria(groupSearchCriteria: GroupSearchCriteria): Observable<Group[]> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
+        headers.append('Access-Control-Allow-Origin', '*');      
         return this.http.post(this.groupUrl + "/searchCriteria", JSON.stringify(groupSearchCriteria), { headers: headers })
             .map(res => res.json())
             .catch(this.handleError);

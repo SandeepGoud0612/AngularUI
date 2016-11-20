@@ -1,9 +1,9 @@
-import { Component, OnInit} from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Growl, DataTable, Column, Button, Header, Footer, Dropdown, SelectItem, Listbox } from "primeng/primeng";
 import { Message } from "../message";
 import { EmailServer } from "./emailserver";
 import { EmailServerService } from "./emailserver.service";
-import { EmailServerProperty } from "./emailserver.properties";
+import { EmailServerProperties } from "./emailserver.properties";
 
 @Component({
     selector: "my-servers",
@@ -22,7 +22,7 @@ export class EmailServerComponent implements OnInit {
     updateEmailServer: boolean;
     emailServerSelected: EmailServer;
     emailServerPropertyTypes: SelectItem[];
-     emailServerPropertyNew:  EmailServerProperty;
+    emailServerPropertyNew: EmailServerProperties;
 
     constructor(private emailServerService: EmailServerService) { }
 
@@ -31,11 +31,11 @@ export class EmailServerComponent implements OnInit {
         this.loadEmailServerPropertyType();
     }
 
-    loadEmailServerPropertyType(){
+    loadEmailServerPropertyType() {
         this.emailServerPropertyTypes = [];
-        this.emailServerPropertyTypes.push({label:'String', value:EmailServerPropertyType.string});
-        this.emailServerPropertyTypes.push({label:'Number', value:EmailServerPropertyType.number});
-        this.emailServerPropertyTypes.push({label:'Boolean', value:EmailServerPropertyType.boolean});
+        this.emailServerPropertyTypes.push({ label: 'String', value: EmailServerPropertyType.string });
+        this.emailServerPropertyTypes.push({ label: 'Number', value: EmailServerPropertyType.number });
+        this.emailServerPropertyTypes.push({ label: 'Boolean', value: EmailServerPropertyType.boolean });
     }
 
     onRowSelect(event: any) {
@@ -45,17 +45,33 @@ export class EmailServerComponent implements OnInit {
 
     getAllEmailServers() {
         this.emailServerService.getAllEmailServers()
-            .subscribe(
-            emailServers => {
-                this.emailServers = emailServers;
-            }
+            .subscribe(emailServers => { this.emailServers = emailServers; }
             );
     }
 
-    updateEmailServerSubmit(){
+    createEmailServerClick() {
+        this.emailServerNew = new EmailServer();        
+        this.createEmailServer = true;
+        this.active = false;
+        setTimeout(() => this.active = true, 0);
+    }
+
+    createEmailServerSubmit(){
+            this.emailServerService.createEmailServer(this.emailServerNew)
+            .subscribe(() => {
+               this.msgs.push({ severity: "info", summary: "Email Server created successfully.", detail: "" });
+                this.createEmailServer = false;
+                this.getAllEmailServers();
+            },
+            error => {
+                this.msgs.push({ severity: "error", summary: "Email Server creation failed.", detail: error })
+            });
+    }   
+
+    updateEmailServerSubmit() {
         this.emailServerService.updateEmailServerSubmit(this.emailServerSelected)
-            .subscribe(emailServerUpdated => {
-                this.emailServerSelected = emailServerUpdated;
+            .subscribe(emailServer => {
+                this.emailServerSelected = emailServer;
                 this.viewEmailServer = true;
                 this.updateEmailServer = false;
                 this.msgs.push({ severity: "info", summary: "Email Server updated successfully.", detail: "" });
@@ -63,18 +79,6 @@ export class EmailServerComponent implements OnInit {
             error => {
                 this.msgs.push({ severity: "error", summary: "Email Server updation failed.", detail: error })
             });
-    }
-
-    createEmailServerClick() {
-        this.emailServerNew = new EmailServer();
-        this.emailServerPropertyNew = new EmailServerProperty();
-        this.createEmailServer = true;
-        this.active = false;
-        setTimeout(() => this.active = true, 0);
-    }
-
-    addEmailServerPropertyClick(){
-        
     }
 
     createEmailServerCancleClick() {
@@ -95,10 +99,11 @@ export class EmailServerComponent implements OnInit {
     }
 
     updateEmailServerCancel() {
-         this.updateEmailServer = false;
+        this.updateEmailServer = false;
         this.viewEmailServer = true;
+        this.emailServerSelected = this.emailServerUpdate;
     }
-   
+
     cloneContact(server: EmailServer): EmailServer {
         let emailServer = new EmailServer();
         for (let prop in server) {

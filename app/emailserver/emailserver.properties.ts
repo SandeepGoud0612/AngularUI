@@ -1,7 +1,6 @@
 import { EmailServer } from "./emailserver";
-export class EmailServerProperty {
+export class EmailServerProperties {
     name: string;
     value: string;
-    emailServer: EmailServer;
     type: EmailServerPropertyType;
 }

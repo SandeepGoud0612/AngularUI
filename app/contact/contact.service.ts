@@ -28,7 +28,7 @@ export class ContactService {
     }
 
     getAllContactsByCriteria(contactSearchCriteria: ContactSearchCriteria): Observable<Contact[]> {
-        let headers = new Headers();
+        let headers = new Headers();  
         headers.append('Content-Type', 'application/json');
         return this.http.post(this.contactUrl + "/searchCriteria", JSON.stringify(contactSearchCriteria), { headers: headers })
             .map((res: Response) => res.json())
