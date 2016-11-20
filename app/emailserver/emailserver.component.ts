@@ -4,6 +4,7 @@ import { Message } from "../message";
 import { EmailServer } from "./emailserver";
 import { EmailServerService } from "./emailserver.service";
 import { EmailServerProperties } from "./emailserver.properties";
+import { EmailServerPropertyValueTypeConstant } from "./emailServerPropertyValueTypeConstant";
 
 @Component({
     selector: "my-servers",
@@ -19,6 +20,7 @@ export class EmailServerComponent implements OnInit {
     createEmailServer: boolean;
     active: boolean = true;
     active2: boolean = true;
+    active3: boolean = true;
     viewEmailServer: boolean;
     updateEmailServer: boolean;
     emailServerSelected: EmailServer;
@@ -35,14 +37,17 @@ export class EmailServerComponent implements OnInit {
     loadEmailServerPropertyType() {
         this.emailServerPropertyTypes = [];
         this.emailServerPropertyTypes.push({ label: 'Select Type', value: null });
-        this.emailServerPropertyTypes.push({ label: 'String', value: 'String' });
-        this.emailServerPropertyTypes.push({ label: 'Number', value: 'Number' });
-        this.emailServerPropertyTypes.push({ label: 'Boolean', value: 'Boolean' });
+        this.emailServerPropertyTypes.push({ label: 'String', value: EmailServerPropertyValueTypeConstant.STRING });
+        this.emailServerPropertyTypes.push({ label: 'Number', value: EmailServerPropertyValueTypeConstant.NUMBER });
+        this.emailServerPropertyTypes.push({ label: 'Boolean', value: EmailServerPropertyValueTypeConstant.BOOLEAN });
     }
 
     onRowSelect(event: any) {
         this.emailServerSelected = event.data;
+        this.emailServerPropertyNew = new EmailServerProperties();
         this.viewEmailServer = true;
+        this.active = false;
+        setTimeout(() => this.active = true, 0);
     }
 
     getAllEmailServers() {
@@ -67,11 +72,29 @@ export class EmailServerComponent implements OnInit {
         setTimeout(() => this.active2 = true, 0);
     }
 
+    addEmailServerPropertyUpdate() {
+        this.emailServerSelected.emailServerProperties.push(this.emailServerPropertyNew);
+        this.emailServerPropertyNew = new EmailServerProperties();
+        this.active2 = false;
+        setTimeout(() => this.active2 = true, 0);
+    }
+
     deleteEmailServerProperty(emailServerProperties: EmailServerProperties) {
         let index: number = 0;
         for (let emailServerProperty of this.emailServerNew.emailServerProperties) {
-            if (emailServerProperty.name === emailServerProperties.name) {
+            if (emailServerProperty.propertyName === emailServerProperties.propertyName) {
                 this.emailServerNew.emailServerProperties.splice(index, 1);
+                break;
+            }
+            index++;
+        }
+    }
+
+    deleteEmailServerPropertyUpdate(emailServerProperties: EmailServerProperties) {
+        let index: number = 0;
+        for (let emailServerProperty of this.emailServerSelected.emailServerProperties) {
+            if (emailServerProperty.propertyName === emailServerProperties.propertyName) {
+                this.emailServerSelected.emailServerProperties.splice(index, 1);
                 break;
             }
             index++;
