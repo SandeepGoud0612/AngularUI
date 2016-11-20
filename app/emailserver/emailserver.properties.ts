@@ -1,6 +1,7 @@
 import { EmailServer } from "./emailserver";
+import { EmailServerPropertyValueTypeConstant } from "./emailServerPropertyValueTypeConstant";
 export class EmailServerProperties {
-    name: string;
+    propertyName: string;
     value: string;
-    type: string;
+    emailServerPropertyValueTypeConstant: EmailServerPropertyValueTypeConstant;
 }
