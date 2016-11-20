@@ -11,4 +11,5 @@ export class EmailServer {
     fromAddress: string;
     emailUserName: string;
     emailPassword: string;
+    emailServerProperties: EmailServerProperties[];
 }
